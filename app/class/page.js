@@ -1,4 +1,4 @@
-import ClassListPage from '@/components/classlist'
+import ClassListPage from '@/components/classlistpage'
 import Link from 'next/link'
 import React from 'react'
 
