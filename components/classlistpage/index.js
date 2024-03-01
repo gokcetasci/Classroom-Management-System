@@ -43,15 +43,14 @@ const ClassListPage = () => {
   const handleViewStudentList = (classId) => {
     setCurrentClass(classId);
   };
-  
 
   const handleBackToClassList = () => {
     setCurrentClass(null);
   };
 
+
   return (
     <div>
-      <h1>Class List Page</h1>
       <div>
         {currentClass ? (
           <>
@@ -77,46 +76,41 @@ const ClassListPage = () => {
           </>
         ) : (
           <>
-            <h2>Class List</h2>
-            <ul>
-              {classes.map((classInfo) => (
-                <li key={classInfo.id}>
-                  {editMode === classInfo.id ? (
-                    <>
-                      <input
-                        type="text"
-                        name="name"
-                        value={editedValues.name || ''}
-                        onChange={(e) => setEditedValues({ ...editedValues, name: e.target.value })}
-                        placeholder="Name"
-                      />
-                      <input
-                        type="text"
-                        name="numericName"
-                        value={editedValues.numericName || ''}
-                        onChange={(e) => setEditedValues({ ...editedValues, numericName: e.target.value })}
-                        placeholder="Numeric Name"
-                      />
-                      <input
-                        type="text"
-                        name="capacity"
-                        value={editedValues.capacity || ''}
-                        onChange={(e) => setEditedValues({ ...editedValues, capacity: e.target.value })}
-                        placeholder="Capacity"
-                      />
-                      <button onClick={() => handleSaveEdit(classInfo.id)}>Save</button>
-                      <button onClick={handleCancelEdit}>Cancel</button>
-                    </>
-                  ) : (
-                    <>
-                      {classInfo.name} - {classInfo.numericName} - Capacity: {classInfo.capacity}
-                      <button onClick={() => handleEditClick(classInfo.id)}>Edit</button>
-                      <button onClick={() => handleViewStudentList(classInfo.id)}>View Student List</button>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <div className='container mx-auto'>
+            <table className="table-auto border-collapse  border-b border-tableborder w-full ">
+              <thead >
+                <tr className='text-tablehead text-[15px] font-semibold leading-[21px] '>
+                  <th className='border-b border-tableborder w-p-[10px]'>Class Name</th>
+                  <th className='border-b border-tableborder w-p-[10px]'>Class Numeric Value</th>
+                  <th className='border-b border-tableborder w-p-[10px]'>Student Capacity</th>
+                  <th className='border-b border-tableborder p-[10px] w-[40px]'>Action</th>
+                </tr>
+              </thead>
+              <tbody className='text-tablepcolor text-[14px] leading-[15px] font-normal '>
+                {classes.map((classInfo) => (
+                  <tr key={classInfo.id}>
+                    <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.name}</td>
+                    <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.numericName}</td>
+                    <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.capacity}</td>
+                    <td className='border-b border-tableborder'>
+                      
+                      {editMode === classInfo.id ? (
+                        <>
+                          <button onClick={() => handleSaveEdit(classInfo.id)}>Save</button>
+                          <button onClick={handleCancelEdit}>Cancel</button>
+                        </>
+                      ) : (
+                        <>
+                          <button onClick={() => handleEditClick(classInfo.id)}>Edit</button>
+                          <button onClick={() => handleViewStudentList(classInfo.id)}>View Student List</button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            </div>
           </>
         )}
       </div>
