@@ -17,6 +17,9 @@ module.exports = {
       primary: "#5840bb",
       white: "#ffffff",
       black: "#000000",
+      tablehead: "#ADAEB0",
+      tableborder: "#E1E3E6",
+      tablepcolor: "#595F69",
     }
   },
   plugins: [],
