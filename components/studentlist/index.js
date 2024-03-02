@@ -10,6 +10,7 @@ const ViewStudentList = ({
   onDeleteStudent,
   onAddStudent,
   onBackToClassList,
+  setShowClassButton,
 }) => {
   const [newStudentName, setNewStudentName] = useState("");
   const [newStudentEmail, setNewStudentEmail] = useState("");
@@ -26,7 +27,13 @@ const ViewStudentList = ({
   return (
     <div className="container mx-auto">
       <div className="flex flex-row items-center h-[120px]">
-        <button onClick={onBackToClassList} className="mr-2">
+        <button
+          onClick={() => {
+            onBackToClassList();
+            setShowClassButton(true);
+          }}
+          className="mr-2"
+        >
           <FaArrowLeft className="w-6 h-6" />
         </button>
         <h2 className="text-[26px] font-semibold ">

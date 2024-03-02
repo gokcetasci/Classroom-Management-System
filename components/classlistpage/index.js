@@ -7,7 +7,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { FaList } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
-const ClassListPage = () => {
+
+const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
   const { classes, addStudent, deleteStudent } = useStore();
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
@@ -29,6 +30,7 @@ const ClassListPage = () => {
 
   const handleBackToClassList = () => {
     setCurrentClass(null);
+    setShowClassButton(true); 
   };
 
   const handleDropdownToggle = (classId) => {
@@ -43,7 +45,11 @@ const ClassListPage = () => {
       handleViewStudentList(classId);
     }
   };
-  
+
+  const handleViewStudentListClick = () => {
+    onViewStudentListClick();
+  };
+
   return (
     <div>
       <div>
@@ -59,6 +65,7 @@ const ClassListPage = () => {
               addStudent(currentClass, studentName, studentEmail)
             }
             onBackToClassList={handleBackToClassList}
+            setShowClassButton={setShowClassButton}
           />
         ) : (
           <>
@@ -66,7 +73,7 @@ const ClassListPage = () => {
               <table className="table-auto border-collapse  border-b border-tableborder w-full ">
                 <thead>
                   <tr className="text-tablehead text-[15px] font-semibold leading-[21px] ">
-                  <th className="border-b border-tableborder p-[10px] text-center w-[60px] px-6">
+                    <th className="border-b border-tableborder p-[10px] text-center w-[60px] px-6">
                       İmage
                     </th>
                     <th className="border-b border-tableborder p-[10px] text-left">
@@ -85,9 +92,9 @@ const ClassListPage = () => {
                 </thead>
                 <tbody className="text-tablepcolor text-[14px] leading-[15px] font-normal w-full ">
                   {classes.map((classInfo) => (
-                    <tr key={classInfo.id} >
+                    <tr key={classInfo.id}>
                       <td className="border-b border-tableborder py-4 px-[10px]">
-                      <PiStudentFill className="ml-6 w-4 h-4"/>
+                        <PiStudentFill className="ml-6 w-4 h-4" />
                       </td>
                       <td className="border-b border-tableborder py-4 px-[10px]">
                         {classInfo.name}
@@ -125,14 +132,15 @@ const ClassListPage = () => {
                                     handleDropdownSelect("edit", classInfo.id)
                                   }
                                 >
-                                  <FaEdit className="mr-2 w-4 h-4"/>
+                                  <FaEdit className="mr-2 w-4 h-4" />
                                   Edit
                                 </button>
                                 <button
                                   className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
-                                  onClick={() =>
-                                    handleDropdownSelect("view", classInfo.id)
-                                  }
+                                  onClick={() => {
+                                    handleDropdownSelect("view", classInfo.id);
+                                    handleViewStudentListClick();
+                                  }}
                                 >
                                   <FaList className="mr-2 w-4 h-4" />
                                   View Student List
