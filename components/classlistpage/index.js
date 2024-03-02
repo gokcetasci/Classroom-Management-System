@@ -87,7 +87,7 @@ const ClassListPage = () => {
                   {classes.map((classInfo) => (
                     <tr key={classInfo.id} >
                       <td className="border-b border-tableborder py-4 px-[10px]">
-                      <PiStudentFill className="ml-6"/>
+                      <PiStudentFill className="ml-6 w-4 h-4"/>
                       </td>
                       <td className="border-b border-tableborder py-4 px-[10px]">
                         {classInfo.name}
@@ -117,9 +117,9 @@ const ClassListPage = () => {
                               aria-orientation="vertical"
                               aria-labelledby="options-menu"
                             >
-                              <div className="py-1" role="none">
+                              <div role="none">
                                 <button
-                                  className="block p-[10px] flex flex-row items-center text-[15px]"
+                                  className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
                                   role="menuitem"
                                   onClick={() =>
                                     handleDropdownSelect("edit", classInfo.id)
@@ -129,7 +129,7 @@ const ClassListPage = () => {
                                   Edit
                                 </button>
                                 <button
-                                  className="block p-[10px] flex flex-row items-center text-[15px]"
+                                  className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
                                   onClick={() =>
                                     handleDropdownSelect("view", classInfo.id)
                                   }
