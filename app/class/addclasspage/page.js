@@ -125,7 +125,7 @@ const AddClassPage = () => {
             ) : null}
           </div>
         </div>
-        <div className="flex flex-row items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-44">
+        <div className="flex flex-row items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-44 cursor-pointer">
           <button type="submit" className="flex flex-row items-center ">
             <span className="mr-2">
               <FaPlus />
