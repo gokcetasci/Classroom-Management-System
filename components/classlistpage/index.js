@@ -12,6 +12,7 @@ const ClassListPage = () => {
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
 
   useEffect(() => {
     console.log(classes);
@@ -30,8 +31,6 @@ const ClassListPage = () => {
     setCurrentClass(null);
   };
 
-  const [dropdownOpen, setDropdownOpen] = useState(null);
-
   const handleDropdownToggle = (classId) => {
     setDropdownOpen(dropdownOpen === classId ? null : classId);
   };
@@ -44,6 +43,7 @@ const ClassListPage = () => {
       handleViewStudentList(classId);
     }
   };
+  
   return (
     <div>
       <div>
@@ -55,8 +55,8 @@ const ClassListPage = () => {
             onDeleteStudent={(studentId) =>
               deleteStudent(currentClass, studentId)
             }
-            onAddStudent={(studentName) =>
-              addStudent(currentClass, studentName)
+            onAddStudent={(studentName, studentEmail) =>
+              addStudent(currentClass, studentName, studentEmail)
             }
             onBackToClassList={handleBackToClassList}
           />
