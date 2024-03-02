@@ -1,43 +1,22 @@
-"use client"
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+"use client";
+import React, { useEffect, useState } from 'react';
 import useStore from '@/utils/store';
+import EditPopUp from '../editpopup';
+import ViewStudentList from '../studentlist';
 
 const ClassListPage = () => {
-  const { classes, editClass, addStudent, deleteStudent } = useStore();
-  const [editMode, setEditMode] = useState(null);
-  const [editedValues, setEditedValues] = useState({});
-  const [newStudentName, setNewStudentName] = useState('');
+  const { classes, addStudent, deleteStudent } = useStore();
   const [currentClass, setCurrentClass] = useState(null);
+  const [editClassId, setEditClassId] = useState(null);
+  const [showEditPopUp, setShowEditPopUp] = useState(false);
 
   useEffect(() => {
     console.log(classes);
   }, [classes]);
 
   const handleEditClick = (classId) => {
-    setEditMode(classId);
-    const editedClass = classes.find((classInfo) => classInfo.id === classId);
-    setEditedValues(editedClass);
-  };
-
-  const handleSaveEdit = (classId) => {
-    editClass(classId, editedValues);
-    setEditMode(null);
-    setEditedValues({});
-  };
-
-  const handleCancelEdit = () => {
-    setEditMode(null);
-    setEditedValues({});
-  };
-
-  const handleAddStudent = (classId) => {
-    addStudent(classId, newStudentName);
-    setNewStudentName('');
-  };
-
-  const handleDeleteStudent = (classId, studentId) => {
-    deleteStudent(classId, studentId);
+    setShowEditPopUp(true);
+    setEditClassId(classId);
   };
 
   const handleViewStudentList = (classId) => {
@@ -47,71 +26,57 @@ const ClassListPage = () => {
   const handleBackToClassList = () => {
     setCurrentClass(null);
   };
-
-
+  
+  
   return (
     <div>
       <div>
         {currentClass ? (
-          <>
-            <h2>Student List</h2>
-            <ul>
-              {classes
-                .find((classInfo) => classInfo.id === currentClass)
-                ?.students.map((student) => (
-                  <li key={student.id}>
-                    {student.name}
-                    <button onClick={() => handleDeleteStudent(currentClass, student.id)}>Delete Student</button>
-                  </li>
-                ))}
-            </ul>
-            <input
-              type="text"
-              value={newStudentName}
-              onChange={(e) => setNewStudentName(e.target.value)}
-              placeholder="New Student Name"
-            />
-            <button onClick={() => handleAddStudent(currentClass)}>Add Student</button>
-            <button onClick={handleBackToClassList}>Back to Class List</button>
-          </>
+          
+           <ViewStudentList
+            classInfo={classes.find((classInfo) => classInfo.id === currentClass)}
+            onDeleteStudent={(studentId) => deleteStudent(currentClass, studentId)}
+            onAddStudent={(studentName) => addStudent(currentClass, studentName)}
+            onBackToClassList={handleBackToClassList}
+          />
+          
         ) : (
           <>
             <div className='container mx-auto'>
-            <table className="table-auto border-collapse  border-b border-tableborder w-full ">
-              <thead >
-                <tr className='text-tablehead text-[15px] font-semibold leading-[21px] '>
-                  <th className='border-b border-tableborder w-p-[10px]'>Class Name</th>
-                  <th className='border-b border-tableborder w-p-[10px]'>Class Numeric Value</th>
-                  <th className='border-b border-tableborder w-p-[10px]'>Student Capacity</th>
-                  <th className='border-b border-tableborder p-[10px] w-[40px]'>Action</th>
-                </tr>
-              </thead>
-              <tbody className='text-tablepcolor text-[14px] leading-[15px] font-normal '>
-                {classes.map((classInfo) => (
-                  <tr key={classInfo.id}>
-                    <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.name}</td>
-                    <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.numericName}</td>
-                    <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.capacity}</td>
-                    <td className='border-b border-tableborder'>
-                      
-                      {editMode === classInfo.id ? (
-                        <>
-                          <button onClick={() => handleSaveEdit(classInfo.id)}>Save</button>
-                          <button onClick={handleCancelEdit}>Cancel</button>
-                        </>
-                      ) : (
-                        <>
-                          <button onClick={() => handleEditClick(classInfo.id)}>Edit</button>
-                          <button onClick={() => handleViewStudentList(classInfo.id)}>View Student List</button>
-                        </>
-                      )}
-                    </td>
+              <table className="table-auto border-collapse  border-b border-tableborder w-full ">
+                <thead>
+                  <tr className='text-tablehead text-[15px] font-semibold leading-[21px] '>
+                    <th className='border-b border-tableborder p-[10px]'>Class Name</th>
+                    <th className='border-b border-tableborder p-[10px]'>Class Numeric Value</th>
+                    <th className='border-b border-tableborder p-[10px]'>Student Capacity</th>
+                    <th className='border-b border-tableborder p-[10px] w-[40px]'>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className='text-tablepcolor text-[14px] leading-[15px] font-normal '>
+                  {classes.map((classInfo) => (
+                    <tr key={classInfo.id}>
+                      <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.name}</td>
+                      <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.numericName}</td>
+                      <td className='border-b border-tableborder py-4 px-[10px]'>{classInfo.capacity}</td>
+                      <td className='border-b border-tableborder text-tablepcolor'>
+                      <button onClick={() => handleEditClick(classInfo.id)}>
+                            Edit
+                          </button>
+                          <button onClick={() => handleViewStudentList(classInfo.id)}>View Student List</button>
+
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </>
+        )}
+        {showEditPopUp && (
+          <EditPopUp
+            classInfo={classes.find((classInfo) => classInfo.id === editClassId)}
+            onClose={() => setShowEditPopUp(false)}
+          />
         )}
       </div>
     </div>
