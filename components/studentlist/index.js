@@ -26,7 +26,7 @@ const ViewStudentList = ({
 
   return (
     <div className="container mx-auto">
-      <div className="flex flex-row items-center h-[120px]">
+      <div className="flex flex-row pl-6  items-center h-[120px]">
         <button
           onClick={() => {
             onBackToClassList();
