@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import useStore from "@/utils/store";
@@ -7,10 +7,12 @@ import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import { FaExclamationCircle } from "react-icons/fa";
-
+import Modal from "@/components/modal";
+import { FaCheck } from "react-icons/fa6";
 
 const AddClassPage = () => {
   const { addClass } = useStore();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("This field is required"),
@@ -30,8 +32,9 @@ const AddClassPage = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      addClass(values); //add global state
+      addClass(values);
       formik.resetForm();
+      setIsSuccessModalOpen(true);
     },
   });
 
@@ -119,7 +122,7 @@ const AddClassPage = () => {
             />
             {formik.touched.capacity && formik.errors.capacity ? (
               <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd]">
-                <FaExclamationCircle className="mr-2" />
+                <FaExclamationCircle className="mr-2 " />
                 {formik.errors.capacity}
               </div>
             ) : null}
@@ -134,6 +137,31 @@ const AddClassPage = () => {
           </button>
         </div>
       </form>
+      <Modal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+      >
+        <div className="p-4 relative">
+          <div className="flex flex-row items-center justify-center">
+            <div className="absolute -top-12 right-18 w-16 h-16 flex items-center justify-center bg-[#71c341] rounded-full animate-bounce ">
+              <FaCheck className="w-8 h-8 fill-white z-1 " />
+            </div>
+
+            <div className="flex flex-col items-center justify-center py-6">
+              <h1 className="text-2xl pb-4 font-bold">Success!</h1>
+              <p className="text-lg text-black/75 font-normal pb-8">
+              New class information added!
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsSuccessModalOpen(false)}
+            className="text-white w-full rounded-md py-2 bg-[#71c341] hover:scale-105 text-emibold"
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
