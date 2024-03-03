@@ -156,7 +156,7 @@ const AddClassPage = () => {
           </div>
           <button
             onClick={() => setIsSuccessModalOpen(false)}
-            className="text-white w-full rounded-md py-2 bg-[#71c341] hover:scale-105 text-emibold"
+            className="text-white w-full rounded-md py-2 bg-[#71c341] hover:scale-105 text-semibold"
           >
             OK
           </button>
