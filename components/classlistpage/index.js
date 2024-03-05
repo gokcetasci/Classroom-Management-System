@@ -73,19 +73,19 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
               <table className="table-auto border-collapse  border-b border-tableborder w-full ">
                 <thead>
                   <tr className="text-tablehead text-[15px] font-semibold leading-[21px] ">
-                    <th className="border-b border-tableborder p-[10px] text-center w-[60px] px-6">
+                    <th className="border-b border-tableborder p-[10px] text-center hidden sm:flex sm:w-[45px] md:w-[60px] px-6">
                       İmage
                     </th>
-                    <th className="border-b border-tableborder p-[10px] text-left">
+                    <th className="border-b border-tableborder p-[10px] text-center sm:text-left">
                       Class Name
                     </th>
-                    <th className="border-b border-tableborder p-[10px] text-left">
+                    <th className="border-b border-tableborder p-[10px] text-center sm:text-left">
                       Class Numeric Value
                     </th>
-                    <th className="border-b border-tableborder p-[10px] text-left">
+                    <th className="border-b border-tableborder p-[10px] text-center sm:text-left">
                       Student Capacity
                     </th>
-                    <th className="border-b border-tableborder p-[10px] w-[40px] px-6">
+                    <th className="border-b border-tableborder p-[10px] sm:w-[40px] ">
                       Action
                     </th>
                   </tr>
@@ -93,16 +93,16 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
                 <tbody className="text-tablepcolor text-[14px] leading-[15px] font-normal w-full ">
                   {classes.map((classInfo) => (
                     <tr key={classInfo.id}>
-                      <td className="border-b border-tableborder py-4 px-[10px]">
+                      <td className="border-b hidden sm:flex border-tableborder py-4 px-[10px]">
                         <PiStudentFill className="ml-6 w-4 h-4" />
                       </td>
-                      <td className="border-b border-tableborder py-4 px-[10px]">
+                      <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
                         {classInfo.name}
                       </td>
-                      <td className="border-b border-tableborder py-4 px-[10px]">
+                      <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
                         {classInfo.numericName}
                       </td>
-                      <td className="border-b border-tableborder py-4 px-[10px]">
+                      <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
                         {classInfo.capacity}
                       </td>
                       <td className="border-b border-tableborder text-tablepcolor">
