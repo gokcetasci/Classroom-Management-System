@@ -22,7 +22,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
-      <div className="relative bg-white p-8 rounded-md shadow-md">
+      <div className="relative bg-white p-8 rounded-md shadow-md w-screen sm:w-[450px]">
         <h2 className="text-2xl font-bold mb-4">Edit Class Information</h2>
         <div className="mb-4">
           <label className="w-full flex flex-row items-center ">
