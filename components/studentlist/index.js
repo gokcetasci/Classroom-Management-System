@@ -46,8 +46,8 @@ const ViewStudentList = ({
         </h2>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-center mb-[50px] shadow-md p-8 rounded-md bg-[#eef2ff] mx-12 relative">
-        <div className="mr-0 sm:mr-8 flex-col sm:flex-row items-center justify-center mb-5 sm:mb-0">
+      <div className="flex flex-col lg:flex-row items-center justify-center mb-[50px] shadow-md p-8 rounded-md bg-[#eef2ff] mx-6 md:mx-12 relative">
+        <div className="mr-0 lg:mr-8 flex flex-col sm:flex-row items-center justify-center mb-5 lg:mb-0">
           <input
             type="text"
             value={newStudentName}
@@ -67,7 +67,7 @@ const ViewStudentList = ({
               console.log("New Student Email:", e.target.value);
             }}
             placeholder="New Student E-mail"
-            className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-0 sm:mr-6`}
+            className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-0 lg:mr-6`}
           />
         </div>
         {errorMessage && (
