@@ -5,14 +5,15 @@ import { FaSquarePlus } from "react-icons/fa6";
 import ClassListPage from "@/components/classlistpage";
 
 function ClassPage() {
-  const [showClassButton, setShowClassButton] = useState(true);
+  const [showClassButton, setShowClassButton] = useState(true);// showClassButton state'i ve onu güncellemek için setShowClassButton fonksiyonunu tanımlanır.
 
+  // Öğrenci listesini görüntüleme butonuna tıklandığında çalışacak fonksiyon.
   const handleViewStudentListClick = () => {
-    setShowClassButton(false);
+    setShowClassButton(false); // showClassButton'u false olarak güncelleyerek "Class" ve "Add Class" butonları gizlenir.
   };
 
   return (
-    <div className="container mx-auto">
+    <div id="classpage" className="container mx-auto">
       <div className="flex flex-row items-center p-12">
         {showClassButton && (
           <>
