@@ -21,10 +21,12 @@ const AddClassPage = () => {
       .required("This field is required"),
     numericName: Yup.number()
       .required("This field is required")
-      .positive("Class Numeric Name must be positive"),
+      .positive("Must be positive")
+      .min(1, "Must be greater than 0"),
     capacity: Yup.number()
       .required("This field is required")
-      .positive("Student Capacity must be positive"),
+      .positive("Must be positive")
+      .min(1, "Must be greater than 0"),
   });
 
   //form durumu ve validasyonları yöneten fonksiyon başlangıç değerleri alınıyor ve form gönderildiğinde onsubmit fonksiyonu çalışıyor
@@ -108,7 +110,7 @@ const AddClassPage = () => {
             />
             {/* Class Name Numeric için error mesajı */}
             {formik.touched.numericName && formik.errors.numericName ? (
-              <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] ">
+              <div className="z-10 bg-[#ef4444] text-white w-full flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] ">
                 <FaExclamationCircle className="mr-2" />
                 {formik.errors.numericName}
               </div>
