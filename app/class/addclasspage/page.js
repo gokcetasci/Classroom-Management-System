@@ -11,9 +11,10 @@ import Modal from "@/components/modal";
 import { FaCheck } from "react-icons/fa6";
 
 const AddClassPage = () => {
-  const { addClass } = useStore();
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const { addClass } = useStore(); // store'daki addClass'ı aldık
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); //modal görünürlüğü için state 
 
+  //form için yup ile doğrulama şeması
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(3, "Must be at least 3 characters")
@@ -26,8 +27,9 @@ const AddClassPage = () => {
       .positive("Student Capacity must be positive"),
   });
 
+  //form durumu ve validasyonları yöneten fonksiyon başlangıç değerleri alınıyor ve form gönderildiğinde onsubmit fonksiyonu çalışıyor
   const formik = useFormik({
-    initialValues: {
+    initialValues: { 
       name: "",
       numericName: "",
       capacity: "",
@@ -41,8 +43,10 @@ const AddClassPage = () => {
   });
 
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-row ml-6 items-center h-[120px]">
+    <div id="addclasspage" className="container mx-auto">
+
+      {/* Sınıf listesine sayfasına geri dönmek için button*/}
+      <div id="backtoclasspagebutton" className="flex flex-row ml-6 items-center h-[120px]">
         <Link href={"/class"} className="mr-2">
           <FaArrowLeft className="w-6 h-6" />
         </Link>
@@ -51,12 +55,15 @@ const AddClassPage = () => {
       <div className="my-2 pb-[30px] text-[18px] text-tablehead leading-[21px] font-semibold tracking-wide m-8">
         <h2>CLASS INFORMATION </h2>
       </div>
-      <form
+
+      {/* Yeni sınıf eklemek için form*/}
+      <form id="addclassform"
         onSubmit={formik.handleSubmit}
         className="flex flex-col items-center justify-center"
       >
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-3 mb-6">
-          <div className="flex flex-col items-left relative ">
+        <div id="addclassinputs" className="flex flex-col lg:flex-row gap-6 lg:gap-3 mb-6">
+
+          <div id="classnameinput" className="flex flex-col items-left relative ">
             <label
               htmlFor="name"
               className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[14px]"
@@ -73,7 +80,7 @@ const AddClassPage = () => {
               className={`border border-[#9ca3af]
             } focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
             />
-
+            {/* Class Name için error mesajı */}
             {formik.touched.name && formik.errors.name ? (
               <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd]">
                 <FaExclamationCircle className="mr-2" />
@@ -81,7 +88,8 @@ const AddClassPage = () => {
               </div>
             ) : null}
           </div>
-          <div className="flex flex-col items-left relative ">
+
+          <div id="numericnameinput" className="flex flex-col items-left relative ">
             <label
               htmlFor="name"
               className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[14px]"
@@ -98,6 +106,7 @@ const AddClassPage = () => {
               className={`border border-[#9ca3af]
             focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
             />
+            {/* Class Name Numeric için error mesajı */}
             {formik.touched.numericName && formik.errors.numericName ? (
               <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] ">
                 <FaExclamationCircle className="mr-2" />
@@ -105,7 +114,8 @@ const AddClassPage = () => {
               </div>
             ) : null}
           </div>
-          <div className="flex flex-col items-left relative ">
+
+          <div id="capacityinput" className="flex flex-col items-left relative ">
             <label
               htmlFor="name"
               className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[14px]"
@@ -122,6 +132,7 @@ const AddClassPage = () => {
               className={`border border-[#9ca3af]
               focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
             />
+            {/* Student Capacity için error mesajı */}
             {formik.touched.capacity && formik.errors.capacity ? (
               <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd]">
                 <FaExclamationCircle className="mr-2 " />
@@ -130,7 +141,8 @@ const AddClassPage = () => {
             ) : null}
           </div>
         </div>
-        <div className="flex flex-row items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-44 cursor-pointer">
+
+        <div id="addclassbutton" className="flex flex-row items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-44 cursor-pointer">
           <button type="submit" className="flex flex-row items-center ">
             <span className="mr-2">
               <FaPlus />
@@ -139,6 +151,8 @@ const AddClassPage = () => {
           </button>
         </div>
       </form>
+
+      {/*Öğrenci ekleme başarılı ise bir Success Modal gösterilir*/}
       <Modal
         isOpen={isSuccessModalOpen}
         onClose={() => setIsSuccessModalOpen(false)}
@@ -164,6 +178,7 @@ const AddClassPage = () => {
           </button>
         </div>
       </Modal>
+
     </div>
   );
 };
