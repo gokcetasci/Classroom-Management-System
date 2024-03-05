@@ -190,7 +190,7 @@ const ViewStudentList = ({
                     onClick={() => handleDeleteStudent(student.id)}
                     className=""
                   >
-                    <RiDeleteBinFill className="fill-[#DC143C] w-5 h-5 hover:scale-105" />
+                    <RiDeleteBinFill className="fill-deletebutton w-5 h-5 hover:scale-105" />
                   </button>
                 </td>
               </tr>
