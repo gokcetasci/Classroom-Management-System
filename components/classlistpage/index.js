@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useStore from "@/utils/store";
 import EditPopUp from "../editpopup";
 import ViewStudentList from "../studentlist";
@@ -7,15 +7,19 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { FaList } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
+import { RiDeleteBinFill } from "react-icons/ri";
 
-const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
-  const { classes, addStudent, deleteStudent } = useStore(); //bu sayfada kullanılacak durum ve fonksiyonları içeri aldık
+const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
+  const { classes, addStudent, deleteStudent, deleteClass } = useStore(); //bu sayfada kullanılacak durum ve fonksiyonları içeri aldık
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const dropdownRef = useRef(null);
 
-  useEffect(() => { //classes durumu değiştiğinde logla 
+  useEffect(() => {
+    //classes durumu değiştiğinde logla
     console.log(classes);
   }, [classes]);
 
@@ -33,7 +37,7 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
   // Sınıf listesine geri dönmek için kullanılacak fonksiyon
   const handleBackToClassList = () => {
     setCurrentClass(null);
-    setShowClassButton(true); 
+    setShowClassButton(true);
   };
 
   // Dropdown açma/kapatma
@@ -48,7 +52,9 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
       handleEditClick(classId);
     } else if (action === "view") {
       handleViewStudentList(classId);
-    }
+    } else if (action === "delete") {
+      setConfirmDelete(true);
+      setEditClassId(classId);    }
   };
 
   // Öğrenci listesini görüntüle düğmesine tıklanınca çalışacak fonksiyon
@@ -56,6 +62,32 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
     onViewStudentListClick();
   };
 
+  //class silme işleminin gerçekleştiği fonksiyon 
+  const handleConfirmDelete = () => {
+    deleteClass(editClassId);
+    setConfirmDelete(false);
+  }
+
+  //class silme işlemini iptal eden fonksiyon
+  const handleCancelDelete = () => {
+    setConfirmDelete(false);
+  };
+
+  // Eğer tıklanan eleman dropdown içinde değilse, dropdown'ı kapat
+  const handleClickOutsideDropdown = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setDropdownOpen(null);    
+    }
+  };
+
+  //dropdown dışına tıklama olayını dinleme
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideDropdown);
+    return () => {   // Component güncellendiğinde veya kaldırıldığında olay dinleyicisini temizleme
+      document.removeEventListener("mousedown", handleClickOutsideDropdown);
+    };
+  }, []);
+  
   return (
     <div id="classlistpage">
       <div>
@@ -111,8 +143,11 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
                       <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
                         {classInfo.capacity}
                       </td>
-                      <td id="dropdownmenu" className="border-b border-tableborder text-tablepcolor">
-                        <div className="relative inline-block flex items-center justify-center  ">
+                      <td
+                        id="dropdownmenu"
+                        className="border-b border-tableborder text-tablepcolor"
+                      >
+                        <div className="relative inline-block flex items-center justify-center" >
                           <div>
                             <button
                               type="button"
@@ -151,6 +186,13 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
                                   <FaList className="mr-2 w-4 h-4" />
                                   View Student List
                                 </button>
+                                <button 
+                                  className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
+                                  onClick={() => {
+                                  handleDropdownSelect("delete", classInfo.id)}}>
+                                    <RiDeleteBinFill className="mr-2 w-4 h-4" />
+                                    Delete
+                                </button>
                               </div>
                             </div>
                           )}
@@ -173,6 +215,29 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
             onClose={() => setShowEditPopUp(false)}
           />
         )}
+        {confirmDelete && (
+        <div id="confirmdelete" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+          <div className="bg-white p-8 rounded-lg">
+            <p className="mb-4 text-lg">
+              Are you sure you want to delete this class?
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="mr-3 px-4 py-2 bg-deletebutton text-white rounded flex flex-row items-center justify-center text-white  rounded-full hover:scale-105 cursor-pointer"
+                onClick={handleConfirmDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="px-4 py-2 text-deletebutton hover:scale-105"
+                onClick={handleCancelDelete}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
