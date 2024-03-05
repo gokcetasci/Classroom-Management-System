@@ -14,19 +14,19 @@ function ClassPage() {
 
   return (
     <div id="classpage" className="container mx-auto">
-      <div className="flex flex-row items-center p-12">
+      <div className="flex flex-row items-center p-2 sm:p-12">
         {showClassButton && (
           <>
             <Link href="/class">
-              <p className="text-[26px] mr-2">Class</p>
+              <p className="text-[14px] sm:text-[20px] md:text-[26px] mr-2">Class</p>
             </Link>
             <Link href="/class/addclasspage">
-              <FaSquarePlus className="w-9 h-9 fill-primary hover:scale-105 transition duration-300 ease-in-out" />
+              <FaSquarePlus className="w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9 fill-primary hover:scale-105 transition duration-300 ease-in-out" />
             </Link>
           </>
         )}
       </div>
-      <div className="m-6">
+      <div className="container">
       <ClassListPage
         onViewStudentListClick={handleViewStudentListClick}
         setShowClassButton={setShowClassButton}

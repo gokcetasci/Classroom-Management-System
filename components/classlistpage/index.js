@@ -110,37 +110,37 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
             <div id="classlist" className="container mx-auto ">
               <table className="table-auto border-collapse  border-b border-tableborder w-full ">
                 <thead>
-                  <tr className="text-tablehead text-[15px] font-semibold leading-[21px] ">
-                    <th className="border-b border-tableborder p-[10px] text-center hidden sm:flex sm:w-[45px] md:w-[60px] px-6">
+                  <tr className="text-tablehead text-[8px] sm:text-[12px] md:text-[15px] font-semibold leading-[12px] sm:leading-[21px] ">
+                    <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center w-[20px] sm:w-[60px]" >
                       İmage
                     </th>
-                    <th className="border-b border-tableborder p-[10px] text-center sm:text-left">
+                    <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center sm:text-left">
                       Class Name
                     </th>
-                    <th className="border-b border-tableborder p-[10px] text-center sm:text-left">
+                    <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center sm:text-left">
                       Class Numeric Value
                     </th>
-                    <th className="border-b border-tableborder p-[10px] text-center sm:text-left">
+                    <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center sm:text-left">
                       Student Capacity
                     </th>
-                    <th className="border-b border-tableborder p-[10px] sm:w-[40px] ">
+                    <th className="border-b border-tableborder p-[4px] sm:p-[10px] sm:w-[40px] ">
                       Action
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-tablepcolor text-[14px] leading-[15px] font-normal w-full ">
+                <tbody className="text-tablepcolor text-[6px] sm:text-[10px] md:text-[14px] leading-[15px] font-normal w-full ">
                   {classes.map((classInfo) => (
                     <tr key={classInfo.id}>
-                      <td className="border-b hidden sm:flex border-tableborder py-4 px-[10px]">
-                        <PiStudentFill className="ml-6 w-4 h-4" />
+                      <td className="border-b border-tableborder py-2 sm:py-4 px-[4px] sm:px-[10px]">
+                        <PiStudentFill className="ml-2 sm:ml-6 w-2 sm:w-4 h-2 sm:h-4" />
                       </td>
-                      <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
+                      <td className="border-b border-tableborder py-2 sm:py-4 px-[4px] sm:px-[10px] text-center sm:text-left">
                         {classInfo.name}
                       </td>
-                      <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
+                      <td className="border-b border-tableborder py-2 sm:py-4 px-[4px] sm:px-[10px] text-center sm:text-left">
                         {classInfo.numericName}
                       </td>
-                      <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
+                      <td className="border-b border-tableborder py-2 sm:py-4 px-[4px] sm:px-[10px] text-center sm:text-left">
                         {classInfo.capacity}
                       </td>
                       <td
@@ -154,43 +154,43 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                               className="inline-flex text-tablepcolor"
                               onClick={() => handleDropdownToggle(classInfo.id)}
                             >
-                              <BsThreeDotsVertical className="fill-tablepcolor w-[26px] h-[26px] " />
+                              <BsThreeDotsVertical className="fill-tablepcolor w-3 sm:w-5 md:w-[26px] h-3 sm:h-5 md:h-[26px] " />
                             </button>
                           </div>
 
                           {dropdownOpen === classInfo.id && (
                             <div
-                              className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                              className="origin-top-right absolute right-0 mt-2 w-24 sm:w-36 md:w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
                               role="menu"
                               aria-orientation="vertical"
                               aria-labelledby="options-menu"
                             >
                               <div role="none">
                                 <button
-                                  className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
+                                  className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
                                   role="menuitem"
                                   onClick={() =>
                                     handleDropdownSelect("edit", classInfo.id)
                                   }
                                 >
-                                  <FaEdit className="mr-2 w-4 h-4" />
+                                  <FaEdit className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
                                   Edit
                                 </button>
                                 <button
-                                  className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
+                                  className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
                                   onClick={() => {
                                     handleDropdownSelect("view", classInfo.id);
                                     handleViewStudentListClick();
                                   }}
                                 >
-                                  <FaList className="mr-2 w-4 h-4" />
+                                  <FaList className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
                                   View Student List
                                 </button>
                                 <button 
-                                  className="block p-[10px] flex flex-row items-center text-[15px] hover:bg-[#f3f4f6] w-full"
+                                  className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
                                   onClick={() => {
                                   handleDropdownSelect("delete", classInfo.id)}}>
-                                    <RiDeleteBinFill className="mr-2 w-4 h-4" />
+                                    <RiDeleteBinFill className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
                                     Delete
                                 </button>
                               </div>
