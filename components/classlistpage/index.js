@@ -9,34 +9,39 @@ import { FaList } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 
 const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
-  const { classes, addStudent, deleteStudent } = useStore();
+  const { classes, addStudent, deleteStudent } = useStore(); //bu sayfada kullanılacak durum ve fonksiyonları içeri aldık
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => { //classes durumu değiştiğinde logla 
     console.log(classes);
   }, [classes]);
 
+  // Edit düğmesine tıklandığında çalışacak fonksiyon
   const handleEditClick = (classId) => {
     setShowEditPopUp(true);
     setEditClassId(classId);
   };
 
+  // Öğrenci listesini görüntüle düğmesine tıklandığında çalışacak fonksiyon
   const handleViewStudentList = (classId) => {
     setCurrentClass(classId);
   };
 
+  // Sınıf listesine geri dönmek için kullanılacak fonksiyon
   const handleBackToClassList = () => {
     setCurrentClass(null);
     setShowClassButton(true); 
   };
 
+  // Dropdown açma/kapatma
   const handleDropdownToggle = (classId) => {
     setDropdownOpen(dropdownOpen === classId ? null : classId);
   };
 
+  // Dropdown menü için seçim işlemleri
   const handleDropdownSelect = (action, classId) => {
     setDropdownOpen(null);
     if (action === "edit") {
@@ -46,12 +51,13 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
     }
   };
 
+  // Öğrenci listesini görüntüle düğmesine tıklanınca çalışacak fonksiyon
   const handleViewStudentListClick = () => {
     onViewStudentListClick();
   };
 
   return (
-    <div>
+    <div id="classlistpage">
       <div>
         {currentClass ? (
           <ViewStudentList
@@ -69,7 +75,7 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
           />
         ) : (
           <>
-            <div className="container mx-auto ">
+            <div id="classlist" className="container mx-auto ">
               <table className="table-auto border-collapse  border-b border-tableborder w-full ">
                 <thead>
                   <tr className="text-tablehead text-[15px] font-semibold leading-[21px] ">
@@ -105,7 +111,7 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
                       <td className="border-b border-tableborder py-4 px-[10px] text-center sm:text-left">
                         {classInfo.capacity}
                       </td>
-                      <td className="border-b border-tableborder text-tablepcolor">
+                      <td id="dropdownmenu" className="border-b border-tableborder text-tablepcolor">
                         <div className="relative inline-block flex items-center justify-center  ">
                           <div>
                             <button
@@ -157,8 +163,10 @@ const ClassListPage = ({ onViewStudentListClick,  setShowClassButton }) => {
             </div>
           </>
         )}
+
         {showEditPopUp && (
           <EditPopUp
+            id="editpopup"
             classInfo={classes.find(
               (classInfo) => classInfo.id === editClassId
             )}
