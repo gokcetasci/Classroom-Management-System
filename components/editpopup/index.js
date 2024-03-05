@@ -10,21 +10,23 @@ const EditPopUp = ({ classInfo, onClose }) => {
     capacity: classInfo.capacity,
   });
 
+  // Input değerleri değiştiğinde çağrılacak fonksiyon
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
+  // Değişiklikleri kaydetme fonksiyonu
   const handleSave = () => {
     editClass(classInfo.id, editedValues);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+    <div id="editpopuppage" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
       <div className="relative bg-white p-8 rounded-md shadow-md w-screen sm:w-[450px]">
         <h2 className="text-2xl font-bold mb-4">Edit Class Information</h2>
-        <div className="mb-4">
+        <div id="classnameinput" className="mb-4">
           <label className="w-full flex flex-row items-center ">
             <p className="w-[150px]">Class Name:</p>
             <input
@@ -36,7 +38,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
               />
           </label>
         </div>
-        <div className="mb-4">
+        <div id="numericnameinput" className="mb-4">
         <label className="w-full flex flex-row items-center ">
           <p className="w-[150px]">Numeric Name:</p>
             <input
@@ -48,7 +50,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
               />
           </label>
         </div>
-        <div className="mb-4">
+        <div id="studentcapacityinput" className="mb-4">
         <label className="w-full flex flex-row items-center ">
           <p className="w-[150px]">Student Capacity:</p>
             <input
@@ -60,9 +62,9 @@ const EditPopUp = ({ classInfo, onClose }) => {
               />
           </label>
         </div>
-        <div className="flex justify-end">
-          <button className="flex items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-24 cursor-pointer" onClick={handleSave}>Save</button>
-          <button className="absolute top-4 right-4 text-[#ef4444] hover:scale-105 hover:text-[#dc2626]" onClick={onClose}><IoClose className="w-8 h-8"/></button>
+        <div id="buttons" className="flex justify-end">
+          <button id="savebutton" className="flex items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-24 cursor-pointer" onClick={handleSave}>Save</button>
+          <button id="closebutton" className="absolute top-4 right-4 text-[#ef4444] hover:scale-105 hover:text-[#dc2626]" onClick={onClose}><IoClose className="w-8 h-8"/></button>
         </div>
       </div>
     </div>
