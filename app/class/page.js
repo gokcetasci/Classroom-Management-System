@@ -12,7 +12,7 @@ function ClassPage() {
   };
 
   return (
-    <div>
+    <div className="container mx-auto">
       <div className="flex flex-row items-center p-12">
         {showClassButton && (
           <>
@@ -25,10 +25,12 @@ function ClassPage() {
           </>
         )}
       </div>
+      <div className="m-6">
       <ClassListPage
         onViewStudentListClick={handleViewStudentListClick}
         setShowClassButton={setShowClassButton}
       />
+      </div>
     </div>
   );
 }
