@@ -20,6 +20,7 @@ module.exports = {
       tablehead: "#ADAEB0",
       tableborder: "#E1E3E6",
       tablepcolor: "#595F69",
+      deletebutton: "#DC143C",
     }
   },
   plugins: [],
