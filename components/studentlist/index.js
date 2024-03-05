@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
-import { FaPlus } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 
 const ViewStudentList = ({
@@ -12,23 +13,45 @@ const ViewStudentList = ({
   onBackToClassList,
   setShowClassButton,
 }) => {
-  const [newStudentName, setNewStudentName] = useState("");
-  const [newStudentEmail, setNewStudentEmail] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
 
+
+  const validationSchema = Yup.object({
+    newStudentName: Yup.string()
+      .min(3, "Must be at least 3 characters")
+      .required("Required"),
+    newStudentEmail: Yup.string()
+      .email("Invalid email address")
+      .required("Required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      newStudentName: "",
+      newStudentEmail: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      if (
+        values.newStudentName.trim() === "" ||
+        values.newStudentEmail.trim() === ""
+      ) {
+        setErrorMessage("Please enter both name and email information!");
+      } else {
+        onAddStudent(values.newStudentName, values.newStudentEmail);
+        setNewStudentName("");
+        setNewStudentEmail("");
+        setErrorMessage("");
+      }
+    },
+  });
+
+  
   const handleDeleteStudent = (studentId) => {
     onDeleteStudent(studentId);
   };
-  const handleAddStudent = () => {
-    if (newStudentName.trim() === "" || newStudentEmail.trim() === "") {
-      setErrorMessage("Please enter both name and email informations!");
-    } else {
-      onAddStudent(newStudentName, newStudentEmail);
-      setNewStudentName("");
-      setNewStudentEmail("");
-      setErrorMessage("");
-    }
-  };
+  
   return (
     <div className="container mx-auto">
       <div className="flex flex-row pl-6  items-center h-[120px]">
@@ -50,25 +73,37 @@ const ViewStudentList = ({
         <div className="mr-0 lg:mr-8 flex flex-col sm:flex-row items-center justify-center mb-5 lg:mb-0">
           <input
             type="text"
-            value={newStudentName}
-            onChange={(e) => {
-              setNewStudentName(e.target.value);
-              console.log("New Student Name:", e.target.value);
-            }}
+            name="newStudentName"
+            value={formik.values.newStudentName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="New Student Name"
-            className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-0 sm:mr-6 mb-3 sm:mb-0`}
+            className={`border ${
+              formik.errors.newStudentName && formik.touched.newStudentName
+                ? "border-red-500"
+                : "border-[#9ca3af]"
+            } focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-0 sm:mr-6 mb-3 sm:mb-0`}
           />
+          {formik.errors.newStudentName && formik.touched.newStudentName && (
+            <div className="text-red-500">{formik.errors.newStudentName}</div>
+          )}
 
           <input
             type="email"
-            value={newStudentEmail}
-            onChange={(e) => {
-              setNewStudentEmail(e.target.value);
-              console.log("New Student Email:", e.target.value);
-            }}
+            name="newStudentEmail"
+            value={formik.values.newStudentEmail}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="New Student E-mail"
-            className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-0 lg:mr-6`}
+            className={`border ${
+              formik.errors.newStudentEmail && formik.touched.newStudentEmail
+                ? "border-red-500"
+                : "border-[#9ca3af]"
+            } focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-0 lg:mr-6`}
           />
+          {formik.errors.newStudentEmail && formik.touched.newStudentEmail && (
+            <div className="text-red-500">{formik.errors.newStudentEmail}</div>
+          )}
         </div>
         {errorMessage && (
           <div className="absolute -top-10 z-20 flex items-center justify-center mx-12">
@@ -79,7 +114,7 @@ const ViewStudentList = ({
         )}
         <div className="flex flex-row items-center justify-center bg-primary/75 text-white py-2 px-6 rounded-full hover:scale-105 hover:bg-primary w-48 ">
           <button
-            onClick={handleAddStudent}
+            onClick={formik.handleSubmit}
             className="flex flex-row items-center "
           >
             <span className="mr-2">
