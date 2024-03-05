@@ -15,7 +15,9 @@ const AddClassPage = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("This field is required"),
+    name: Yup.string()
+      .min(3, "Must be at least 3 characters")
+      .required("This field is required"),
     numericName: Yup.number()
       .required("This field is required")
       .positive("Class Numeric Name must be positive"),
@@ -94,10 +96,10 @@ const AddClassPage = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`border border-[#9ca3af]
-            } focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
+            focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
             />
             {formik.touched.numericName && formik.errors.numericName ? (
-              <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd]">
+              <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] ">
                 <FaExclamationCircle className="mr-2" />
                 {formik.errors.numericName}
               </div>
@@ -118,7 +120,7 @@ const AddClassPage = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={`border border-[#9ca3af]
-            } focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
+              focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6`}
             />
             {formik.touched.capacity && formik.errors.capacity ? (
               <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd]">
@@ -150,7 +152,7 @@ const AddClassPage = () => {
             <div className="flex flex-col items-center justify-center py-6">
               <h1 className="text-2xl pb-4 font-bold">Success!</h1>
               <p className="text-lg text-black/75 font-normal pb-8">
-              New class information added!
+                New class information added!
               </p>
             </div>
           </div>
