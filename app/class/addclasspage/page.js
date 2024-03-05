@@ -46,14 +46,14 @@ const AddClassPage = () => {
         </Link>
         <h2 className="text-[26px] ">Add Class</h2>
       </div>
-      <div className="my-2 pb-[15px] text-[18px] text-tablehead leading-[21px] font-semibold tracking-wide mx-6">
+      <div className="my-2 pb-[30px] text-[18px] text-tablehead leading-[21px] font-semibold tracking-wide m-8">
         <h2>CLASS INFORMATION </h2>
       </div>
       <form
         onSubmit={formik.handleSubmit}
         className="flex flex-col items-center justify-center"
       >
-        <div className="flex flex-col sm:flex-row gap-6 sm:gap-3 mb-6">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-3 mb-6">
           <div className="flex flex-col items-left relative ">
             <label
               htmlFor="name"
