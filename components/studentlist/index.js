@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useFormik } from "formik";
+import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import { FaArrowLeft, FaPlus, FaExclamationCircle } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
@@ -15,8 +15,6 @@ const ViewStudentList = ({
   onBackToClassList,
   setShowClassButton,
 }) => {
-  // Hata mesajını saklamak tanımlanan state.
-  const [errorMessage, setErrorMessage] = useState("");
   const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(false); //öğrenci silme işleminin onaylanıp onaylanmadığını belirten state
   const [studentToDelete, setStudentToDelete] = useState(null); //silinecek öğrencinin id sini tutan state
 
@@ -29,33 +27,6 @@ const ViewStudentList = ({
     newStudentEmail: Yup.string()
       .email("Geçersiz e-posta adresi girdiniz.")
       .required("Bu alan zorunludur."),
-  });
-
-  // useFormik hook'u kullanılarak form işlemleri yönetilir.
-  const formik = useFormik({
-    initialValues: {
-      newStudentName: "",
-      newStudentEmail: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // Yeni öğrenci adı ve e-posta boş değilse, öğrenciyi ekler.
-      if (
-        values.newStudentName.trim() === "" ||
-        values.newStudentEmail.trim() === ""
-      ) {
-        // Hata mesajı ayarlanır.
-        setErrorMessage(
-          "Lütfen hem adınızı hem de e-posta bilgilerinizi girin!"
-        );
-      } else {
-        // Yeni öğrenci eklenir, form sıfırlanır ve hata mesajı temizlenir.
-        onAddStudent(values.newStudentName, values.newStudentEmail);
-        formik.resetForm();
-        setErrorMessage("");
-        toast.success("Yeni öğrenci bilgileri eklendi!");
-      }
-    },
   });
 
   //silme işlemi başladığında çağrılan fonksiyon
@@ -80,7 +51,6 @@ const ViewStudentList = ({
   return (
     <div id="studentlist" className="container mx-auto">
       <div className="flex flex-row pl-6 items-center h-[60px] sm:h-[90px] md:h-[120px]">
-        {/* Geri tuşuna basıldığında sınıf listesine dönmeyi sağlar */}
         <button
           id="backtoclasslistbutton"
           onClick={() => {
@@ -91,82 +61,83 @@ const ViewStudentList = ({
         >
           <FaArrowLeft className="w-3 sm:w-6 h-3 sm:h-6" />
         </button>
-        {/* Sınıf adını ve "Student List" başlığını görüntüler */}
         <h2 className="text-[14px] sm:text-[20px] md:text-[26px] font-semibold ">
           {classInfo.name} - Öğrenci Listesi
         </h2>
       </div>
 
-      {/* Yeni öğrenci eklemek için form elemanlarını içeren bölüm */}
       <div
         id="addstudentform"
         className="flex flex-col lg:flex-row items-center justify-center mb-[50px] shadow-md p-8 rounded-md bg-[#eef2ff] mx-6 sm:mx-8 md:mx-12 relative"
       >
-        <div className="mr-0 lg:mr-8 flex flex-col sm:flex-row items-center justify-center mb-5 lg:mb-0">
-          <div className="flex flex-col mr-0 sm:mr-6 mb-3 sm:mb-0 ">
-            <input
-              type="text"
-              name="newStudentName"
-              value={formik.values.newStudentName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Yeni Öğrenci Adı"
-              className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
-            />
-            {formik.errors.newStudentName && formik.touched.newStudentName ? (
-              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
-                <FaExclamationCircle className="mr-2 " />
-                {formik.errors.newStudentName}
-              </div>
-            ) : null}
-          </div>
-          <div className="mr-0 lg:mr-6">
-            <input
-              type="email"
-              name="newStudentEmail"
-              value={formik.values.newStudentEmail}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="example@example.com"
-              className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
-            />
-
-            {formik.errors.newStudentEmail && formik.touched.newStudentEmail ? (
-              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
-                <FaExclamationCircle className="mr-2 " />
-                {formik.errors.newStudentEmail}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        {/* Hata mesajını görüntüler */}
-        {errorMessage && (
-          <div className="absolute -top-10 z-20 flex items-center justify-center mx-12">
-            <div className="bg-[#ef4444] text-white w-full sm:w-96 flex items-center justify-center rounded-md p-1 border border-[2px] border-solid border-[#dddddd]">
-              {errorMessage}
-            </div>
-          </div>
-        )}
-
-        {/* Yeni öğrenci eklemek için kullanılan buton */}
-        <div
-          id="addstudentbutton"
-          className="flex flex-row items-center justify-center bg-primary/75 text-white py-2 px-4 sm:px-6 rounded-full hover:scale-105 hover:bg-primary w-28 sm:w-36 md:w-48 text-[8px] sm:text-[16px]"
+        <Formik
+          initialValues={{
+            newStudentName: "",
+            newStudentEmail: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { resetForm }) => {
+            if (values.newStudentName.trim() === "" || values.newStudentEmail.trim() === "") {
+              console.log("Lütfen hem adınızı hem de e-posta bilgilerinizi girin!");
+            } else {
+              onAddStudent(values.newStudentName, values.newStudentEmail);
+              resetForm();
+              toast.success("Yeni öğrenci bilgileri eklendi!");
+            }
+          }}
         >
-          <button
-            onClick={formik.handleSubmit}
-            className="flex flex-row items-center "
-          >
-            <span className="mr-2">
-              <FaPlus />
-            </span>
-            Öğrenci Ekle
-          </button>
-        </div>
+          <Form className="flex flex-col lg:flex-row items-center justify-center">
+            <div className="mr-0 lg:mr-8 flex flex-col sm:flex-row items-center justify-center mb-5 lg:mb-0">
+              <div className="flex flex-col mr-0 sm:mr-6 mb-3 sm:mb-0 ">
+                <Field
+                  type="text"
+                  name="newStudentName"
+                  placeholder="Yeni Öğrenci Adı"
+                  className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
+                />
+                <ErrorMessage
+                  name="newStudentName"
+                  component={({ children }) => (
+                    <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
+                      <FaExclamationCircle className="mr-2 " />
+                      {children}
+                    </div>
+                  )}
+                />
+              </div>
+              <div className="mr-0 lg:mr-6">
+                <Field
+                  type="email"
+                  name="newStudentEmail"
+                  placeholder="example@example.com"
+                  className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
+                />
+                <ErrorMessage
+                  name="newStudentEmail"
+                  component={({ children }) => (
+                    <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
+                      <FaExclamationCircle className="mr-2 " />
+                      {children}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              id="addstudentbutton"
+              className="flex flex-row items-center justify-center bg-primary/75 text-white py-2 px-4 sm:px-6 rounded-full hover:scale-105 hover:bg-primary w-28 sm:w-44 md:w-48 text-[8px] sm:text-[16px]"
+            >
+              <button type="submit" className="flex flex-row items-center ">
+                <span className="mr-2">
+                  <FaPlus />
+                </span>
+                Öğrenci Ekle
+              </button>
+            </div>
+          </Form>
+        </Formik>
       </div>
 
-      {/* Öğrenci listesini görüntüleyen tablo */}
       <div
         id="studentlisttable"
         className="flex items-center justify-center mx-6 sm:mx-12"
@@ -216,7 +187,9 @@ const ViewStudentList = ({
           </tbody>
         </table>
       </div>
+
       <ToastContainer />
+
       {confirmDeleteStudent && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
           <div className="bg-white p-8 rounded-lg">
