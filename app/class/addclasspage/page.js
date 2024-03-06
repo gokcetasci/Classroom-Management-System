@@ -11,9 +11,11 @@ import useStore from "@/utils/store";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from 'next/navigation'
 
 const AddClassPage = () => {
   const { addClass } = useStore(); // store'daki addClass'ı aldık
+  const router = useRouter()
 
   //form için yup ile doğrulama şeması
   const validationSchema = Yup.object({
@@ -41,7 +43,12 @@ const AddClassPage = () => {
     onSubmit: (values) => {
       addClass(values);
       formik.resetForm();
-      toast.success("Yeni sınıf bilgileri eklendi!");
+      toast.success("Yeni sınıf bilgileri eklendi!", {
+        onClose: () => {
+          // Redirect to /class page after the toast is closed
+          router.back();
+        },
+      });
     },
   });
 
@@ -53,7 +60,7 @@ const AddClassPage = () => {
         className="flex flex-row ml-6 items-center h-[60px] sm:h-[120px]"
       >
         <Link href={"/class"} className="mr-2">
-          <FaArrowLeft className=" w-3 sm:w-6 h-3 sm:h-6" />
+          <FaArrowLeft className=" w-3 sm:w-6 h-3 sm:h-6 hover:scale-105 hover:text-[#6366f1]" />
         </Link>
         <h2 className="text-[14px] sm:text-[20px] md:text-[26px]">Sınıf Ekle</h2>
       </div>
