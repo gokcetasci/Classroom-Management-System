@@ -18,7 +18,7 @@ function ClassPage() {
         {showClassButton && (
           <>
             <Link href="/class">
-              <p className="text-[14px] sm:text-[20px] md:text-[26px] mr-2">Class</p>
+              <p className="text-[14px] sm:text-[20px] md:text-[26px] mr-2">Sınıf</p>
             </Link>
             <Link href="/class/addclasspage">
               <FaSquarePlus className="w-5 sm:w-7 md:w-9 h-5 sm:h-7 md:h-9 fill-primary hover:scale-105 transition duration-300 ease-in-out" />
