@@ -93,7 +93,7 @@ const ViewStudentList = ({
               className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
             />
             {formik.errors.newStudentName && formik.touched.newStudentName ? (
-              <div className="z-10 bg-[#ef4444] text-white w-full mt-1 flex items-center justify-center rounded-md border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-[16px]">
+              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                 <FaExclamationCircle className="mr-2 " />
                 {formik.errors.newStudentName}
               </div>
@@ -106,12 +106,12 @@ const ViewStudentList = ({
               value={formik.values.newStudentEmail}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="New Student E-mail"
+              placeholder="example@example.com"
               className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
             />
 
             {formik.errors.newStudentEmail && formik.touched.newStudentEmail ? (
-              <div className="z-10 bg-[#ef4444] text-white w-full flex items-center justify-center mt-1 rounded-md border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-[16px]">
+              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                 <FaExclamationCircle className="mr-2 " />
                 {formik.errors.newStudentEmail}
               </div>

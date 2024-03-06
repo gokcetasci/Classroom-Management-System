@@ -84,7 +84,7 @@ const AddClassPage = () => {
             />
             {/* Class Name için error mesajı */}
             {formik.touched.name && formik.errors.name ? (
-              <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-[16px]">
+              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                 <FaExclamationCircle className="mr-2" />
                 {formik.errors.name}
               </div>
@@ -110,7 +110,7 @@ const AddClassPage = () => {
             />
             {/* Class Name Numeric için error mesajı */}
             {formik.touched.numericName && formik.errors.numericName ? (
-              <div className="z-10 bg-[#ef4444] text-white w-full flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-[16px]">
+              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                 <FaExclamationCircle className="mr-2" />
                 {formik.errors.numericName}
               </div>
@@ -136,7 +136,7 @@ const AddClassPage = () => {
             />
             {/* Student Capacity için error mesajı */}
             {formik.touched.capacity && formik.errors.capacity ? (
-              <div className="z-10 bg-[#ef4444] text-white w-48 flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-[16px]">
+              <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                 <FaExclamationCircle className="mr-2 " />
                 {formik.errors.capacity}
               </div>
