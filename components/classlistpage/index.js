@@ -75,7 +75,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
   };
 
   return (
-    <div id="classlistpage">
+    <div id="classlistpage" className="container mx-auto max-w-[1200px]">
       <div>
         {currentClass ? (
           <ViewStudentList
@@ -96,7 +96,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
             <div id="classlist" className="container mx-auto">
               <table className="table-auto border-collapse  border-b border-tableborder w-full ">
                 <thead>
-                  <tr className="text-tablehead text-[8px] sm:text-[12px] md:text-[15px] font-semibold leading-[12px] sm:leading-[21px] ">
+                  <tr className="text-tablehead text-[8px] sm:text-[10px] md:text-[12px] lg:text-[15px] font-semibold leading-[12px] sm:leading-[21px] ">
                     <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center w-[20px] sm:w-[60px]" >
                       Resim
                     </th>
@@ -114,7 +114,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="text-tablepcolor text-[6px] sm:text-[10px] md:text-[14px] leading-[15px] font-normal w-full ">
+                <tbody className="text-tablepcolor text-[6px] sm:text-[10px] lg:text-[14px] leading-[15px] font-normal w-full ">
                   {classes.map((classInfo) => (
                     <tr key={classInfo.id}>
                       <td className="border-b border-tableborder py-2 sm:py-4 px-[4px] sm:px-[10px]">
