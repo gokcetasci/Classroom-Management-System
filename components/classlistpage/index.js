@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "@/utils/store";
 import EditPopUp from "../editpopup";
 import ViewStudentList from "../studentlist";
@@ -10,13 +10,12 @@ import { PiStudentFill } from "react-icons/pi";
 import { RiDeleteBinFill } from "react-icons/ri";
 
 const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
-  const { classes, addStudent, deleteStudent, deleteClass } = useStore(); //bu sayfada kullanılacak durum ve fonksiyonları içeri aldık
+  const { classes, addStudent, deleteStudent, deleteClass } = useStore(); //bu sayfada kullanılacak durum ve fonksiyonları store'dan içeri aldık
   const [currentClass, setCurrentClass] = useState(null);
   const [editClassId, setEditClassId] = useState(null);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const dropdownRef = useRef(null);
 
   useEffect(() => {
     //classes durumu değiştiğinde logla
@@ -53,8 +52,10 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     } else if (action === "view") {
       handleViewStudentList(classId);
     } else if (action === "delete") {
+      console.log("Delete button clicked");
       setConfirmDelete(true);
-      setEditClassId(classId);    }
+      setEditClassId(classId);
+    }
   };
 
   // Öğrenci listesini görüntüle düğmesine tıklanınca çalışacak fonksiyon
@@ -73,21 +74,6 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
     setConfirmDelete(false);
   };
 
-  // Eğer tıklanan eleman dropdown içinde değilse, dropdown'ı kapat
-  const handleClickOutsideDropdown = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-      setDropdownOpen(null);    
-    }
-  };
-
-  //dropdown dışına tıklama olayını dinleme
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideDropdown);
-    return () => {   // Component güncellendiğinde veya kaldırıldığında olay dinleyicisini temizleme
-      document.removeEventListener("mousedown", handleClickOutsideDropdown);
-    };
-  }, []);
-  
   return (
     <div id="classlistpage">
       <div>
@@ -107,24 +93,24 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
           />
         ) : (
           <>
-            <div id="classlist" className="container mx-auto ">
+            <div id="classlist" className="container mx-auto">
               <table className="table-auto border-collapse  border-b border-tableborder w-full ">
                 <thead>
                   <tr className="text-tablehead text-[8px] sm:text-[12px] md:text-[15px] font-semibold leading-[12px] sm:leading-[21px] ">
                     <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center w-[20px] sm:w-[60px]" >
-                      İmage
+                      Resim
                     </th>
                     <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center sm:text-left">
-                      Class Name
+                      Sınıf Adı
                     </th>
                     <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center sm:text-left">
-                      Class Numeric Value
+                      Sınıf Sayısal Adı
                     </th>
                     <th className="border-b border-tableborder p-[4px] sm:p-[10px] text-center sm:text-left">
-                      Student Capacity
+                      Öğrenci Kapasitesi
                     </th>
                     <th className="border-b border-tableborder p-[4px] sm:p-[10px] sm:w-[40px] ">
-                      Action
+                      Seçenekler
                     </th>
                   </tr>
                 </thead>
@@ -151,16 +137,17 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                           <div>
                             <button
                               type="button"
-                              className="inline-flex text-tablepcolor"
+                              className="inline-flex text-tablepcolor "
                               onClick={() => handleDropdownToggle(classInfo.id)}
+                              
                             >
-                              <BsThreeDotsVertical className="fill-tablepcolor w-3 sm:w-5 md:w-[26px] h-3 sm:h-5 md:h-[26px] " />
+                              <BsThreeDotsVertical className="fill-tablepcolor w-3 sm:w-5 md:w-[26px] h-3 sm:h-5 md:h-[26px] hover:scale-105 hover:fill-[#8b5cf6]" />
                             </button>
                           </div>
 
                           {dropdownOpen === classInfo.id && (
                             <div
-                              className="origin-top-right absolute right-0 mt-2 w-24 sm:w-36 md:w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
+                              className=" absolute top-5 right-5 mt-2 w-32 sm:w-52 md:w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10"
                               role="menu"
                               aria-orientation="vertical"
                               aria-labelledby="options-menu"
@@ -174,7 +161,7 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                                   }
                                 >
                                   <FaEdit className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
-                                  Edit
+                                  Düzenle
                                 </button>
                                 <button
                                   className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
@@ -184,14 +171,14 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
                                   }}
                                 >
                                   <FaList className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
-                                  View Student List
+                                  Öğrenci Listesini Görüntüle
                                 </button>
                                 <button 
                                   className="block p-[3px] sm:p-[10px] flex flex-row items-center text-[8px] sm:text-[12px] md:text-[15px] hover:bg-[#f3f4f6] w-full"
                                   onClick={() => {
                                   handleDropdownSelect("delete", classInfo.id)}}>
                                     <RiDeleteBinFill className="mr-2 w-2 sm:w-4 h-2 sm:h-4" />
-                                    Delete
+                                    Sınıfı Sil
                                 </button>
                               </div>
                             </div>
@@ -216,23 +203,22 @@ const ClassListPage = ({ onViewStudentListClick, setShowClassButton }) => {
           />
         )}
         {confirmDelete && (
-        <div id="confirmdelete" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
           <div className="bg-white p-8 rounded-lg">
             <p className="mb-4 text-lg">
-              Are you sure you want to delete this class?
-            </p>
+            Bu sınıfı silmek istediğinizden emin misiniz?            </p>
             <div className="flex justify-end">
               <button
-                className="mr-3 px-4 py-2 bg-deletebutton text-white rounded flex flex-row items-center justify-center text-white  rounded-full hover:scale-105 cursor-pointer"
+                className="mr-3 px-6 py-2 bg-deletebutton text-white rounded flex flex-row items-center justify-center text-white  rounded-full hover:scale-105 cursor-pointer"
                 onClick={handleConfirmDelete}
               >
-                Delete
+                Sil
               </button>
               <button
                 className="px-4 py-2 text-deletebutton hover:scale-105"
                 onClick={handleCancelDelete}
               >
-                Cancel
+                Kapat
               </button>
             </div>
           </div>
