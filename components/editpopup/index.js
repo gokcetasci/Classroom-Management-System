@@ -10,16 +10,16 @@ const EditPopUp = ({ classInfo, onClose }) => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(3, "Must be at least 3 characters")
-      .required("This field is required"),
+      .min(3, "En az 3 karakter olmalıdır.")
+      .required("Bu alan zorunludur."),
     numericName: Yup.number()
-      .required("This field is required")
-      .positive("Must be positive")
-      .min(1, "Must be greater than 0"),
+      .required("Bu alan zorunludur.")
+      .positive("Pozitif bir değer giriniz.")
+      .min(1, "0'dan büyük olmalıdır."),
     capacity: Yup.number()
-      .required("This field is required")
-      .positive("Must be positive")
-      .min(1, "Must be greater than 0"),
+      .required("Bu alan zorunludur.")
+      .positive("Pozitif bir değer giriniz.")
+      .min(1, "0'dan büyük olmalıdır."),
   });
 
   const formik = useFormik({
@@ -42,13 +42,12 @@ const EditPopUp = ({ classInfo, onClose }) => {
     >
       <div className="relative bg-white p-4 sm:p-8 rounded-md shadow-md w-[285px] sm:w-[450px]">
         <h2 className="text-sm sm:text-2xl font-bold mb-4">
-          Edit Class Information
-        </h2>
+        Sınıf Bilgilerini Düzenle        </h2>
         <form onSubmit={formik.handleSubmit}>
           <div id="classnameinput" className="mb-4">
             <label className="w-full flex flex-row items-center ">
               <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
-                Class Name:
+                Sınıf Adı:
               </p>
               <input
                 type="text"
@@ -69,7 +68,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
           <div id="numericnameinput" className="mb-4">
             <label className="w-full flex flex-row items-center ">
               <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
-                Numeric Name:
+                Sınıf Sayısal Adı:
               </p>
               <input
                 type="text"
@@ -90,7 +89,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
           <div id="studentcapacityinput" className="mb-4">
             <label className="w-full flex flex-row items-center ">
               <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
-                Student Capacity:
+                Öğrenci Kapasitesi:
               </p>
               <input
                 type="number"
@@ -114,7 +113,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
               id="savebutton"
               className="flex items-center justify-center bg-primary/75 text-white py-2 sm:py-4 px-4 sm:px-6 rounded-full hover:scale-105 hover:bg-primary w-16 sm:w-24 cursor-pointer"
             >
-              Save
+              Kaydet
             </button>
             <button
               id="closebutton"
