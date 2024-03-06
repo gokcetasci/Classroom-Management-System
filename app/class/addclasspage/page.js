@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation'
 
 const AddClassPage = () => {
   const { addClass } = useStore(); // store'daki addClass'ı aldık
-  const router = useRouter()
+  const router = useRouter() //önceki sayfaya dönmek için
 
   //form için yup ile doğrulama şeması
   const validationSchema = Yup.object({
@@ -45,7 +45,7 @@ const AddClassPage = () => {
       formik.resetForm();
       toast.success("Yeni sınıf bilgileri eklendi!", {
         onClose: () => {
-          // Redirect to /class page after the toast is closed
+          // kapatıldıktan sonra /sınıf sayfasına yönlendir
           router.back();
         },
       });
