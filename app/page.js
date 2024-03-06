@@ -5,8 +5,8 @@ export default function Home() {
     <div className="container mx-auto">
       <div className="flex flex-row items-center p-12">
         <ul>
-          <li className="text-[26px]">
-            Class
+          <li className="text-[26px] mr-2">
+            Sınıf
           </li>
         </ul>
         <Link href="/class">
