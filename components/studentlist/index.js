@@ -6,6 +6,8 @@ import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { PiStudentFill } from "react-icons/pi";
 import { FaExclamationCircle } from "react-icons/fa";
+import Modal from "../modal";
+import { FaCheck } from "react-icons/fa6";
 
 const ViewStudentList = ({
   classInfo,
@@ -16,6 +18,7 @@ const ViewStudentList = ({
 }) => {
   // Hata mesajını saklamak tanımlanan state.
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); //add student işlemi başarılı ise modal için state
 
   // Yup kütüphanesi kullanılarak form doğrulama şemaları belirlenir.
   const validationSchema = Yup.object({
@@ -47,6 +50,8 @@ const ViewStudentList = ({
         onAddStudent(values.newStudentName, values.newStudentEmail);
         formik.resetForm();
         setErrorMessage("");
+        setSuccessModalOpen(true);
+
       }
     },
   });
@@ -55,7 +60,10 @@ const ViewStudentList = ({
   const handleDeleteStudent = (studentId) => {
     onDeleteStudent(studentId);
   };
-
+  //modalı kapatma işleminin gerçekleştiği fonksiyon
+  const closeModal = () => {
+    setSuccessModalOpen(false);
+  };
   return (
     <div id="studentlist" className="container mx-auto">
       <div className="flex flex-row pl-6 items-center h-[60px] sm:h-[90px] md:h-[120px]">
@@ -198,6 +206,28 @@ const ViewStudentList = ({
           </tbody>
         </table>
       </div>
+      <Modal isOpen={isSuccessModalOpen}>
+      <div className="p-4 relative">
+          <div className="flex flex-row items-center justify-center">
+            <div className="absolute -top-12 right-18 w-16 h-16 flex items-center justify-center bg-[#71c341] rounded-full animate-bounce ">
+              <FaCheck className="w-8 h-8 fill-white z-1 " />
+            </div>
+
+            <div className="flex flex-col items-center justify-center py-6">
+              <h1 className="text-2xl pb-4 font-bold">Success!</h1>
+              <p className="text-lg text-black/75 font-normal pb-8">
+                New student added!
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setSuccessModalOpen(false)}
+            className="text-white w-full rounded-md py-4 sm:py-2 bg-[#71c341] hover:scale-105 text-semibold"
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
