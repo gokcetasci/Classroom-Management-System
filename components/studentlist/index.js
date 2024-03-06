@@ -2,12 +2,11 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { FaArrowLeft, FaPlus } from "react-icons/fa";
+import { FaArrowLeft, FaPlus, FaExclamationCircle } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { PiStudentFill } from "react-icons/pi";
-import { FaExclamationCircle } from "react-icons/fa";
-import Modal from "../modal";
-import { FaCheck } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ViewStudentList = ({
   classInfo,
@@ -18,18 +17,18 @@ const ViewStudentList = ({
 }) => {
   // Hata mesajını saklamak tanımlanan state.
   const [errorMessage, setErrorMessage] = useState("");
-  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); //add student işlemi başarılı ise modal için state
-  const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(false);//öğrenci silme işleminin onaylanıp onaylanmadığını belirten state
-  const [studentToDelete, setStudentToDelete] = useState(null);//silinecek öğrencinin id sini tutan state
+  const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(false); //öğrenci silme işleminin onaylanıp onaylanmadığını belirten state
+  const [studentToDelete, setStudentToDelete] = useState(null); //silinecek öğrencinin id sini tutan state
 
   // Yup kütüphanesi kullanılarak form doğrulama şemaları belirlenir.
   const validationSchema = Yup.object({
     newStudentName: Yup.string()
-      .min(3, "Must be at least 3 characters")
-      .required("This filed is required"),
+      .matches(/^[a-zA-Z\s]+$/, "Rakam veya özel karakterler kullanılamaz.")
+      .min(3, "En az 3 karakter olmalıdır.")
+      .required("Bu alan zorunludur."),
     newStudentEmail: Yup.string()
-      .email("Invalid email address")
-      .required("This filed is required"),
+      .email("Geçersiz e-posta adresi girdiniz.")
+      .required("Bu alan zorunludur."),
   });
 
   // useFormik hook'u kullanılarak form işlemleri yönetilir.
@@ -46,14 +45,15 @@ const ViewStudentList = ({
         values.newStudentEmail.trim() === ""
       ) {
         // Hata mesajı ayarlanır.
-        setErrorMessage("Please enter both name and email information!");
+        setErrorMessage(
+          "Lütfen hem adınızı hem de e-posta bilgilerinizi girin!"
+        );
       } else {
         // Yeni öğrenci eklenir, form sıfırlanır ve hata mesajı temizlenir.
         onAddStudent(values.newStudentName, values.newStudentEmail);
         formik.resetForm();
         setErrorMessage("");
-        setSuccessModalOpen(true);
-
+        toast.success("Yeni öğrenci bilgileri eklendi!");
       }
     },
   });
@@ -87,13 +87,13 @@ const ViewStudentList = ({
             onBackToClassList();
             setShowClassButton(true);
           }}
-          className="mr-2"
+          className="mr-2 hover:scale-105 hover:text-[#6366f1]"
         >
           <FaArrowLeft className="w-3 sm:w-6 h-3 sm:h-6" />
         </button>
         {/* Sınıf adını ve "Student List" başlığını görüntüler */}
         <h2 className="text-[14px] sm:text-[20px] md:text-[26px] font-semibold ">
-          {classInfo.name} Student List
+          {classInfo.name} - Öğrenci Listesi
         </h2>
       </div>
 
@@ -110,7 +110,7 @@ const ViewStudentList = ({
               value={formik.values.newStudentName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="New Student Name"
+              placeholder="Yeni Öğrenci Adı"
               className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md max-w-[180px] sm:max-w-[238px] text-[8px] sm:text-[16px]`}
             />
             {formik.errors.newStudentName && formik.touched.newStudentName ? (
@@ -161,7 +161,7 @@ const ViewStudentList = ({
             <span className="mr-2">
               <FaPlus />
             </span>
-            Add Student
+            Öğrenci Ekle
           </button>
         </div>
       </div>
@@ -175,16 +175,16 @@ const ViewStudentList = ({
           <thead>
             <tr className="text-tablehead text-[10px] sm:text-[12px] md:text-[15px] font-semibold leading-[21px] ">
               <th className="border-b border-tableborder py-[5px] sm:py-[10px] text-center w-[20px] sm:w-[60px] px-2 sm:px-6 ">
-                Photo
+                Fotoğraf
               </th>
               <th className="border-b border-tableborder p-[5px] sm:p-[10px] text-left">
-                Student Name & Email
+                Öğrenci Adı & E-mail
               </th>
               <th className="border-b border-tableborder p-[5px] sm:p-[10px] text-left">
-                Class Name
+                Sınıf İsmi
               </th>
               <th className="border-b border-tableborder p-[5px] sm:p-[10px] text-center">
-                Action
+                Seçenekler
               </th>
             </tr>
           </thead>
@@ -207,9 +207,7 @@ const ViewStudentList = ({
                   id="deletestudentbutton"
                   className="border-b border-tableborder py-4 px-[10px] text-center"
                 >
-                  <button
-                    onClick={() => handleDeleteConfirmation(student.id)}
-                  >
+                  <button onClick={() => handleDeleteConfirmation(student.id)}>
                     <RiDeleteBinFill className="fill-deletebutton w-3 sm:w-5 h-3 sm:h-5 hover:scale-105" />
                   </button>
                 </td>
@@ -218,46 +216,25 @@ const ViewStudentList = ({
           </tbody>
         </table>
       </div>
-      <Modal isOpen={isSuccessModalOpen}>
-      <div className="p-4 relative">
-          <div className="flex flex-row items-center justify-center">
-            <div className="absolute -top-12 right-18 w-16 h-16 flex items-center justify-center bg-[#71c341] rounded-full animate-bounce ">
-              <FaCheck className="w-8 h-8 fill-white z-1 " />
-            </div>
-
-            <div className="flex flex-col items-center justify-center py-6">
-              <h1 className="text-2xl pb-4 font-bold">Success!</h1>
-              <p className="text-lg text-black/75 font-normal pb-8">
-                New student added!
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setSuccessModalOpen(false)}
-            className="text-white w-full rounded-md py-4 sm:py-2 bg-[#71c341] hover:scale-105 text-semibold"
-          >
-            OK
-          </button>
-        </div>
-      </Modal>
+      <ToastContainer />
       {confirmDeleteStudent && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
           <div className="bg-white p-8 rounded-lg">
             <p className="mb-4 text-lg">
-              Are you sure you want to delete this student?
+              Bu öğrenciyi silmek istediğinizden emin misiniz?
             </p>
             <div className="flex justify-end">
               <button
-                className="mr-3 px-4 py-2 bg-deletebutton text-white rounded-full hover:scale-105 cursor-pointer"
+                className="mr-3 px-6 py-2 bg-deletebutton text-white rounded-full hover:scale-105 cursor-pointer"
                 onClick={handleConfirmDeleteStudent}
               >
-                Delete
+                Sil
               </button>
               <button
                 className="px-4 py-2 text-deletebutton hover:scale-105"
                 onClick={handleCancelDeleteStudent}
               >
-                Cancel
+                Kapat
               </button>
             </div>
           </div>
