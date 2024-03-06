@@ -19,6 +19,8 @@ const ViewStudentList = ({
   // Hata mesajını saklamak tanımlanan state.
   const [errorMessage, setErrorMessage] = useState("");
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false); //add student işlemi başarılı ise modal için state
+  const [confirmDeleteStudent, setConfirmDeleteStudent] = useState(false);//öğrenci silme işleminin onaylanıp onaylanmadığını belirten state
+  const [studentToDelete, setStudentToDelete] = useState(null);//silinecek öğrencinin id sini tutan state
 
   // Yup kütüphanesi kullanılarak form doğrulama şemaları belirlenir.
   const validationSchema = Yup.object({
@@ -56,14 +58,25 @@ const ViewStudentList = ({
     },
   });
 
-  // Öğrenci silme işlevi tanımlanır. Belirtilen öğrenci ID'sine göre silme gerçekleştirilir.
-  const handleDeleteStudent = (studentId) => {
-    onDeleteStudent(studentId);
+  //silme işlemi başladığında çağrılan fonksiyon
+  const handleDeleteConfirmation = (studentId) => {
+    setStudentToDelete(studentId);
+    setConfirmDeleteStudent(true);
   };
-  //modalı kapatma işleminin gerçekleştiği fonksiyon
-  const closeModal = () => {
-    setSuccessModalOpen(false);
+
+  //silme işlemi iptal edildiğinde çağrılan fonksiyon
+  const handleCancelDeleteStudent = () => {
+    setStudentToDelete(null);
+    setConfirmDeleteStudent(false);
   };
+
+  //silme işlemi onaylandığında çağrılan fonksiyon
+  const handleConfirmDeleteStudent = () => {
+    onDeleteStudent(studentToDelete);
+    setStudentToDelete(null);
+    setConfirmDeleteStudent(false);
+  };
+
   return (
     <div id="studentlist" className="container mx-auto">
       <div className="flex flex-row pl-6 items-center h-[60px] sm:h-[90px] md:h-[120px]">
@@ -195,8 +208,7 @@ const ViewStudentList = ({
                   className="border-b border-tableborder py-4 px-[10px] text-center"
                 >
                   <button
-                    onClick={() => handleDeleteStudent(student.id)}
-                    className=""
+                    onClick={() => handleDeleteConfirmation(student.id)}
                   >
                     <RiDeleteBinFill className="fill-deletebutton w-3 sm:w-5 h-3 sm:h-5 hover:scale-105" />
                   </button>
@@ -228,6 +240,29 @@ const ViewStudentList = ({
           </button>
         </div>
       </Modal>
+      {confirmDeleteStudent && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+          <div className="bg-white p-8 rounded-lg">
+            <p className="mb-4 text-lg">
+              Are you sure you want to delete this student?
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="mr-3 px-4 py-2 bg-deletebutton text-white rounded-full hover:scale-105 cursor-pointer"
+                onClick={handleConfirmDeleteStudent}
+              >
+                Delete
+              </button>
+              <button
+                className="px-4 py-2 text-deletebutton hover:scale-105"
+                onClick={handleCancelDeleteStudent}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
