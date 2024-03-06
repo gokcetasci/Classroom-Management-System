@@ -1,37 +1,38 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {
+  FaArrowLeft,
+  FaPlus,
+  FaExclamationCircle
+} from "react-icons/fa";
 import useStore from "@/utils/store";
-import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
-import { FaPlus } from "react-icons/fa";
-import { FaExclamationCircle } from "react-icons/fa";
-import Modal from "@/components/modal";
-import { FaCheck } from "react-icons/fa6";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddClassPage = () => {
   const { addClass } = useStore(); // store'daki addClass'ı aldık
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); //modal görünürlüğü için state 
 
   //form için yup ile doğrulama şeması
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(3, "Must be at least 3 characters")
-      .required("This field is required"),
+      .min(3, "En az 3 karakter olmalıdır.")
+      .required("Bu alan zorunludur."),
     numericName: Yup.number()
-      .required("This field is required")
-      .positive("Must be positive")
-      .min(1, "Must be greater than 0"),
+      .required("Bu alan zorunludur.")
+      .positive("Pozitif bir değer giriniz.")
+      .min(1, "0'dan büyük olmalıdır."),
     capacity: Yup.number()
-      .required("This field is required")
-      .positive("Must be positive")
-      .min(1, "Must be greater than 0"),
+      .required("Bu alan zorunludur.")
+      .positive("Pozitif bir değer giriniz.")
+      .min(1, "0'dan büyük olmalıdır."),
   });
 
   //form durumu ve validasyonları yöneten fonksiyon başlangıç değerleri alınıyor ve form gönderildiğinde onsubmit fonksiyonu çalışıyor
   const formik = useFormik({
-    initialValues: { 
+    initialValues: {
       name: "",
       numericName: "",
       capacity: "",
@@ -40,37 +41,45 @@ const AddClassPage = () => {
     onSubmit: (values) => {
       addClass(values);
       formik.resetForm();
-      setIsSuccessModalOpen(true);
+      toast.success("Yeni sınıf bilgileri eklendi!");
     },
   });
 
   return (
     <div id="addclasspage" className="container mx-auto">
-
       {/* Sınıf listesine sayfasına geri dönmek için button*/}
-      <div id="backtoclasspagebutton" className="flex flex-row ml-6 items-center h-[60px] sm:h-[120px]">
+      <div
+        id="backtoclasspagebutton"
+        className="flex flex-row ml-6 items-center h-[60px] sm:h-[120px]"
+      >
         <Link href={"/class"} className="mr-2">
           <FaArrowLeft className=" w-3 sm:w-6 h-3 sm:h-6" />
         </Link>
-        <h2 className="text-[14px] sm:text-[20px] md:text-[26px]">Add Class</h2>
+        <h2 className="text-[14px] sm:text-[20px] md:text-[26px]">Sınıf Ekle</h2>
       </div>
       <div className="pb-[15px] sm:pb-[30px] text-[12px] sm:text-[18px] text-tablehead leading-[21px] font-semibold tracking-wide m-4 sm:m-8">
-        <h2>CLASS INFORMATION </h2>
+        <h2>SINIF BİLGİLERİ </h2>
       </div>
 
       {/* Yeni sınıf eklemek için form*/}
-      <form id="addclassform"
+      <form
+        id="addclassform"
         onSubmit={formik.handleSubmit}
         className="flex flex-col items-center justify-center"
       >
-        <div id="addclassinputs" className="flex flex-col lg:flex-row gap-6 lg:gap-3 mb-6">
-
-          <div id="classnameinput" className="flex flex-col items-left relative ">
+        <div
+          id="addclassinputs"
+          className="flex flex-col lg:flex-row gap-6 lg:gap-3 mb-6"
+        >
+          <div
+            id="classnameinput"
+            className="flex flex-col items-left relative "
+          >
             <label
               htmlFor="name"
               className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[10px] sm:text-[14px]"
             >
-              Class Name*
+              Sınıf Adı*
             </label>
             <input
               type="text"
@@ -91,12 +100,15 @@ const AddClassPage = () => {
             ) : null}
           </div>
 
-          <div id="numericnameinput" className="flex flex-col items-left relative ">
+          <div
+            id="numericnameinput"
+            className="flex flex-col items-left relative "
+          >
             <label
               htmlFor="name"
               className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[10px] sm:text-[14px]"
             >
-              Class Numeric Name*
+              Sınıf Sayısal Adı*
             </label>
             <input
               type="number"
@@ -117,12 +129,15 @@ const AddClassPage = () => {
             ) : null}
           </div>
 
-          <div id="capacityinput" className="flex flex-col items-left relative ">
+          <div
+            id="capacityinput"
+            className="flex flex-col items-left relative "
+          >
             <label
               htmlFor="name"
               className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[10px] sm:text-[14px]"
             >
-              Student Capacity*
+              Öğrenci Kapasitesi*
             </label>
             <input
               type="number"
@@ -144,43 +159,19 @@ const AddClassPage = () => {
           </div>
         </div>
 
-        <div id="addclassbutton" className="flex flex-row items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-36 sm:w-40 md:w-44 h-14 sm:f-full text-sm cursor-pointer">
+        <div
+          id="addclassbutton"
+          className="flex flex-row items-center justify-center bg-primary/75 text-white py-4 px-6 rounded-full hover:scale-105 hover:bg-primary w-36 sm:w-40 md:w-44 h-14 sm:f-full text-sm cursor-pointer"
+        >
           <button type="submit" className="flex flex-row items-center ">
             <span className="mr-2">
               <FaPlus />
             </span>
-            Add Class
+            Sınıf Ekle
           </button>
         </div>
       </form>
-
-      {/*Öğrenci ekleme başarılı ise bir Success Modal gösterilir*/}
-      <Modal
-        isOpen={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
-      >
-        <div className="p-4 relative">
-          <div className="flex flex-row items-center justify-center">
-            <div className="absolute -top-12 right-18 w-16 h-16 flex items-center justify-center bg-[#71c341] rounded-full animate-bounce ">
-              <FaCheck className="w-8 h-8 fill-white z-1 " />
-            </div>
-
-            <div className="flex flex-col items-center justify-center py-6">
-              <h1 className="text-2xl pb-4 font-bold">Success!</h1>
-              <p className="text-lg text-black/75 font-normal pb-8">
-                New class information added!
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setIsSuccessModalOpen(false)}
-            className="text-white w-full rounded-md py-4 sm:py-2 bg-[#71c341] hover:scale-105 text-semibold"
-          >
-            OK
-          </button>
-        </div>
-      </Modal>
-
+      <ToastContainer />
     </div>
   );
 };
