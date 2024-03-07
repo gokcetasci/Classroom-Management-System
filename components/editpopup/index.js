@@ -21,7 +21,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
       id="editpopuppage"
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 "
     >
-      <div className="relative bg-white p-4 sm:p-8 rounded-md shadow-md w-[285px] sm:w-[450px]">
+      <div className="relative bg-white p-4 sm:p-8 rounded-md shadow-md w-[340px] sm:w-[400px] md:w-[450px]">
         <h2 className="text-sm sm:text-2xl font-bold mb-4">
           Sınıf Bilgilerini Düzenle
         </h2>
@@ -48,7 +48,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
                   type="text"
                   name="name"
                   id="name"
-                  className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6 max-w-[180px] sm:max-w-[238px] text-sm`}
+                  className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6 max-w-[150px] sm:max-w-[238px] text-sm`}
                 />
               </label>
               <ErrorMessage
@@ -128,7 +128,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
               <button
                 type="submit"
                 id="savebutton"
-                className="flex items-center justify-center bg-primary/75 text-white py-2 sm:py-4 px-4 sm:px-6 rounded-full hover:scale-105 hover:bg-primary w-16 sm:w-24 cursor-pointer"
+                className="flex items-center justify-center bg-primary/75 text-white py-2 sm:py-4 px-4 sm:px-6 rounded-full hover:scale-105 hover:bg-primary w-16 sm:w-24 cursor-pointer text-sm sm:text-[16px]"
               >
                 Kaydet
               </button>
