@@ -5,8 +5,9 @@ const useStore = create((set) => ({
     {
       id: 1,
       name: "Class 1",
-      numericName: "101",
       capacity: 30,
+      grade: 4,
+      section: "D",
       students: [
         { id: 1, name: "Student 1", email: "student1@example.com" },
         { id: 2, name: "Student 2", email: "student2@example.com" },
@@ -15,8 +16,9 @@ const useStore = create((set) => ({
     {
       id: 2,
       name: "Class 2",
-      numericName: "102",
       capacity: 25,
+      grade: 7,
+      section: "B",
       students: [
         { id: 3, name: "Student 3", email: "student3@example.com" },
         { id: 4, name: "Student 4", email: "student4@example.com" },
@@ -25,8 +27,9 @@ const useStore = create((set) => ({
     {
       id: 3,
       name: "Class 3",
-      numericName: "103",
       capacity: 28,
+      grade: 5,
+      section: "R",
       students: [
         { id: 5, name: "Student 5", email: "student5@example.com" },
         { id: 6, name: "Student 6", email: "student6@example.com" },
@@ -35,8 +38,9 @@ const useStore = create((set) => ({
     {
       id: 4,
       name: "Class 4",
-      numericName: "104",
       capacity: 32,
+      grade: 1,
+      section: "C",
       students: [
         { id: 7, name: "Student 7", email: "student7@example.com" },
         { id: 8, name: "Student 8", email: "student8@example.com" },
@@ -45,8 +49,9 @@ const useStore = create((set) => ({
     {
       id: 5,
       name: "Class 5",
-      numericName: "105",
       capacity: 27,
+      grade: 6,
+      section: "K",
       students: [
         { id: 9, name: "Student 9", email: "student9@example.com" },
         { id: 10, name: "Student 10", email: "student10@example.com" },
@@ -55,8 +60,9 @@ const useStore = create((set) => ({
     {
       id: 6,
       name: "Class 6",
-      numericName: "106",
       capacity: 29,
+      grade: 5,
+      section: "E",
       students: [
         { id: 11, name: "Student 11", email: "student11@example.com" },
         { id: 12, name: "Student 12", email: "student12@example.com" },
@@ -65,8 +71,9 @@ const useStore = create((set) => ({
     {
       id: 7,
       name: "Class 7",
-      numericName: "107",
       capacity: 26,
+      grade: 7,
+      section: "A",
       students: [
         { id: 13, name: "Student 13", email: "student13@example.com" },
         { id: 14, name: "Student 14", email: "student14@example.com" },
@@ -75,8 +82,9 @@ const useStore = create((set) => ({
     {
       id: 8,
       name: "Class 8",
-      numericName: "108",
       capacity: 31,
+      grade: 2,
+      section: "G",
       students: [
         { id: 15, name: "Student 15", email: "student15@example.com" },
         { id: 16, name: "Student 16", email: "student16@example.com" },
@@ -85,8 +93,9 @@ const useStore = create((set) => ({
     {
       id: 9,
       name: "Class 9",
-      numericName: "109",
       capacity: 24,
+      grade: 3,
+      section: "S",
       students: [
         { id: 17, name: "Student 17", email: "student17@example.com" },
         { id: 18, name: "Student 18", email: "student18@example.com" },
@@ -95,8 +104,9 @@ const useStore = create((set) => ({
     {
       id: 10,
       name: "Class 10",
-      numericName: "110",
       capacity: 30,
+      grade: 7,
+      section: "L",
       students: [
         { id: 19, name: "Student 19", email: "student19@example.com" },
         { id: 20, name: "Student 20", email: "student20@example.com" },
@@ -149,10 +159,6 @@ const useStore = create((set) => ({
 
     return { classes: updatedClasses };
   }),
-
-  
-  
-  
 
   deleteStudent: (classId, studentId) =>
     set((state) => ({
