@@ -6,20 +6,14 @@ import { IoClose } from "react-icons/io5";
 import { FaExclamationCircle } from "react-icons/fa";
 
 const EditPopUp = ({ classInfo, onClose }) => {
-  const { editClass } = useStore(); 
+  const { editClass } = useStore();
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "En az 3 karakter olmalıdır.")
       .required("Bu alan zorunludur."),
-    numericName: Yup.number()
-      .required("Bu alan zorunludur.")
-      .positive("Pozitif bir değer giriniz.")
-      .min(1, "0'dan büyük olmalıdır."),
-    capacity: Yup.number()
-      .required("Bu alan zorunludur.")
-      .positive("Pozitif bir değer giriniz.")
-      .min(1, "0'dan büyük olmalıdır."),
+    grade: Yup.string().required("Bu alan zorunludur."),
+    section: Yup.string().required("Bu alan zorunludur."),
   });
 
   return (
@@ -34,8 +28,9 @@ const EditPopUp = ({ classInfo, onClose }) => {
         <Formik
           initialValues={{
             name: classInfo.name,
-            numericName: classInfo.numericName,
             capacity: classInfo.capacity,
+            grade: classInfo.grade,
+            section: classInfo.section,
           }}
           validationSchema={validationSchema}
           onSubmit={(values) => {
@@ -53,7 +48,7 @@ const EditPopUp = ({ classInfo, onClose }) => {
                   type="text"
                   name="name"
                   id="name"
-                  className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6 max-w-[180px] sm:max-w-[238px] text-sm`}
+                  className={`border border-[#9ca3af] focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6 max-w-[180px] sm:max-w-[238px] text-sm`}
                 />
               </label>
               <ErrorMessage
@@ -66,20 +61,28 @@ const EditPopUp = ({ classInfo, onClose }) => {
                 )}
               />
             </div>
-            <div id="numericnameinput" className="mb-4">
+            <div id="gradeinput" className="mb-4">
               <label className="w-full flex flex-row items-center ">
                 <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
-                  Sınıf Sayısal Adı:
+                  Sınıf:
                 </p>
                 <Field
-                  type="text"
-                  name="numericName"
-                  id="numericName"
-                  className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6 max-w-[180px] sm:max-w-[238px] text-sm`}
-                />
+                  as="select"
+                  id="grade"
+                  name="grade"
+                  className={`border border-[#9ca3af]
+              focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
+                >
+                  {/* 1-12 */}
+                  {[...Array(12)].map((_, index) => (
+                    <option key={index + 1} value={index + 1}>
+                      {index + 1}
+                    </option>
+                  ))}
+                </Field>
               </label>
               <ErrorMessage
-                name="numericName"
+                name="grade"
                 component={({ children }) => (
                   <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                     <FaExclamationCircle className="mr-2" />
@@ -88,20 +91,31 @@ const EditPopUp = ({ classInfo, onClose }) => {
                 )}
               />
             </div>
-            <div id="studentcapacityinput" className="mb-4">
+            <div id="sectioninput" className="mb-4">
               <label className="w-full flex flex-row items-center ">
                 <p className="w-[85px] sm:w-[150px] text-[14px] sm:[16px]">
-                  Öğrenci Kapasitesi:
+                  Sınıf Şubesi:
                 </p>
                 <Field
-                  type="number"
-                  name="capacity"
-                  id="capacity"
-                  className={`border focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md mr-6 max-w-[180px] sm:max-w-[238px] text-sm`}
-                />
+                  as="select"
+                  id="section"
+                  name="section"
+                  className={`border border-[#9ca3af]
+              focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
+                >
+                  {/*A-Z*/}
+                  {Array.from({ length: 26 }, (_, index) => (
+                    <option
+                      key={String.fromCharCode(65 + index)}
+                      value={String.fromCharCode(65 + index)}
+                    >
+                      {String.fromCharCode(65 + index)}
+                    </option>
+                  ))}
+                </Field>
               </label>
               <ErrorMessage
-                name="capacity"
+                name="section"
                 component={({ children }) => (
                   <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                     <FaExclamationCircle className="mr-2" />

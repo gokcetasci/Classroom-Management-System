@@ -18,14 +18,10 @@ const AddClassPage = () => {
     name: Yup.string()
       .min(3, "En az 3 karakter olmalıdır.")
       .required("Bu alan zorunludur."),
-    numericName: Yup.number()
+    grade: Yup.string()
+      .required("Bu alan zorunludur."),
+    section: Yup.string()
       .required("Bu alan zorunludur.")
-      .positive("Pozitif bir değer giriniz.")
-      .min(1, "0'dan büyük olmalıdır."),
-    capacity: Yup.number()
-      .required("Bu alan zorunludur.")
-      .positive("Pozitif bir değer giriniz.")
-      .min(1, "0'dan büyük olmalıdır."),
   });
 
   return (
@@ -50,8 +46,9 @@ const AddClassPage = () => {
       <Formik
         initialValues={{
           name: "",
-          numericName: "",
           capacity: "",
+          grade: "",
+          section: ""
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
@@ -100,27 +97,33 @@ const AddClassPage = () => {
                 )}
               />
             </div>
-
             <div
-              id="numericnameinput"
-              className="flex flex-col items-left relative "
+              id="gradeinput"
+              className="flex flex-col items-left relative min-w-[100px]"
             >
               <label
-                htmlFor="name"
+                htmlFor="grade"
                 className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[10px] sm:text-[14px]"
               >
-                Sınıf Sayısal Adı*
+                Sınıf*
               </label>
               <Field
-                type="number"
-                id="numericName"
-                name="numericName"
+                as="select"  
+                id="grade"
+                name="grade"
                 className={`border border-[#9ca3af]
               focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
-              />
-              {/* Class Name Numeric için error mesajı */}
+              >
+                {/* 1-12 */}
+                {[...Array(12)].map((_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </option>
+                ))}
+              </Field>
+              {/* Class Grade için error mesajı */}
               <ErrorMessage
-                name="numericName"
+                name="grade"
                 component={({ children }) => (
                   <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                     <FaExclamationCircle className="mr-2" />
@@ -129,27 +132,33 @@ const AddClassPage = () => {
                 )}
               />
             </div>
-
             <div
-              id="capacityinput"
-              className="flex flex-col items-left relative "
+              id="sectioninput"
+              className="flex flex-col items-left relative  min-w-[150px] "
             >
               <label
-                htmlFor="name"
-                className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[10px] sm:text-[14px]"
+                htmlFor="section"
+                className="absolute left-4 -top-3 font-semibold bg-white px-1 text-[#818386] text-[10px] sm:text-[14px] "
               >
-                Öğrenci Kapasitesi*
+                Sınıf Şubesi*
               </label>
               <Field
-                type="number"
-                id="capacity"
-                name="capacity"
+                as="select"
+                id="section"
+                name="section"
                 className={`border border-[#9ca3af]
-                focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
-              />
-              {/* Student Capacity için error mesajı */}
+              focus:outline-none hover:ring-primary hover:ring-1 p-2 rounded-md sm:mr-6 max-w-[180px] sm:max-w-[238px]`}
+              >
+                {/*A-Z*/}
+                {Array.from({ length: 26 }, (_, index) => (
+                  <option key={String.fromCharCode(65 + index)} value={String.fromCharCode(65 + index)}>
+                    {String.fromCharCode(65 + index)}
+                  </option>
+                ))}
+              </Field>
+              {/* Section için error mesajı */}
               <ErrorMessage
-                name="capacity"
+                name="section"
                 component={({ children }) => (
                   <div className="z-10 bg-[#ef4444] text-white flex items-center justify-center rounded-md p-1 mt-2 border border-[2px] border-solid border-[#dddddd] text-[8px] sm:text-sm">
                     <FaExclamationCircle className="mr-2" />
